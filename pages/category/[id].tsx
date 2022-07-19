@@ -1,20 +1,47 @@
 import { useRouter } from 'next/router';
+import { IAction } from '../../interfaces/action';
+import { ICategory } from '../../interfaces/category';
 
-export default function Category({ cat }) {
+interface CategoryProps {
+  cat: ICategory;
+  acts: IAction[];
+}
+export default function Category({ cat, acts }: CategoryProps) {
   const { query } = useRouter();
+
+  const actions = acts.map((action) => {
+    const date = new Date(action.createdAt);
+
+    return (
+      <li
+        key={action.id}
+        className="flex justify-between border border-slate-400 rounded-lg p-1 m-1 bg-slate-200"
+      >
+        <p>{action.id}</p>
+        <p className="font-bold">{date.toLocaleDateString()}</p>
+        <p>{`from: ${action.from}`}</p>
+        <p className="font-bold">{action.sum}</p>
+        <p>{`to: ${action.to}`}</p>
+      </li>
+    );
+  });
   return (
-    <div>
+    <div className="container px-4 mx-auto">
       <h1>Category c id {query.id}</h1>
       <p>{cat.name}</p>
+      <ul>{actions}</ul>
     </div>
   );
 }
 
 export async function getServerSideProps({ params }) {
-  const response = await fetch(`https://bun-app.herokuapp.com/api/category/${params.id}`);
-  console.log(response);
-  const cat = await response.json();
+  const response1 = await fetch(`https://bun-app.herokuapp.com/api/category/${params.id}`);
+  const cat = await response1.json();
+
+  const response2 = await fetch(`https://bun-app.herokuapp.com/api/action?catId=${params.id}`);
+  const acts = await response2.json();
+
   return {
-    props: { cat },
+    props: { cat, acts },
   };
 }

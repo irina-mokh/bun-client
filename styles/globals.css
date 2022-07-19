@@ -17,3 +17,15 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.section_incomes .bun{
+	background-color: #1BA5DF;
+}
+
+.section_assets .bun{
+	background-color: #16A850;
+}
+
+.section_expenses .bun {
+	background-color: #EB982E;
+}
