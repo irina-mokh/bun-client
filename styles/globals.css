@@ -5,10 +5,14 @@ html,
 body {
   padding: 0;
   margin: 0;
+  @apply 	bg-almond h-screen;
+
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
-
+#__next {
+  @apply h-screen;
+}
 a {
   color: inherit;
   text-decoration: none;
@@ -16,16 +20,4 @@ a {
 
 * {
   box-sizing: border-box;
-}
-
-.section_incomes .bun{
-	background-color: #1BA5DF;
-}
-
-.section_assets .bun{
-	background-color: #16A850;
-}
-
-.section_expenses .bun {
-	background-color: #EB982E;
 }
