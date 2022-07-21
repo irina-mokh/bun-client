@@ -6,27 +6,36 @@ import styles from '../../styles/Action.module.css';
 export default function Action({ action, catFrom, catTo }: IActionProps) {
   const { query } = useRouter();
   const { register, handleSubmit, watch } = useForm();
+
   const onSubmit = (data) => console.log(data);
-  const { sum, from, to, updatedAt } = action;
+  
+  const { sum, createdAt } = action;
+
+  const fromOptions = () 
+  const toOptions = 
 
   return (
     <div className="container mx-auto px-2 max-w-sm">
       <h2>Action c id {query.id}</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <fieldset className="flex flex-col my-3">
-          <input
+          <select
             id="from"
             defaultValue={catFrom.name}
             {...register('from', { required: true })}
             className={styles.input}
-          />
+          >
+            {fromOptions}
+          </select>
           <span>&#8595;</span>
-          <input
+          <select
             id="to"
             defaultValue={catTo.name}
             {...register('to', { required: true })}
             className={styles.input}
-          />
+          >
+            {toOptions}
+          </select>
         </fieldset>
         <div className="flex justify-between">
           <input
@@ -37,7 +46,7 @@ export default function Action({ action, catFrom, catTo }: IActionProps) {
           />
           <input
             type="date"
-            defaultValue={String(updatedAt).substring(0, 10)}
+            defaultValue={String(createdAt).substring(0, 10)}
             {...register('date', { required: true })}
             className={styles.input}
           />
