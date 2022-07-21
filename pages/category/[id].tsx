@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { IAction } from '../../interfaces/action';
 import { ICategory } from '../../interfaces/category';
+import Link from 'next/link';
 
 interface CategoryProps {
   cat: ICategory;
@@ -13,15 +14,16 @@ export default function Category({ cat, acts }: CategoryProps) {
     const date = new Date(action.createdAt);
 
     return (
-      <li
-        key={action.id}
-        className="flex justify-between border border-slate-400 rounded-lg p-1 m-1 bg-slate-200"
-      >
-        <p>{action.id}</p>
-        <p className="font-bold">{date.toLocaleDateString()}</p>
-        <p>{`from: ${action.from}`}</p>
-        <p className="font-bold">{action.sum}</p>
-        <p>{`to: ${action.to}`}</p>
+      <li key={action.id}>
+        <Link href={`/action/${action.id}`}>
+          <a className="flex justify-between border border-slate-400 rounded-lg p-1 m-1 bg-slate-200">
+            <p>{action.id}</p>
+            <p className="font-bold">{date.toLocaleDateString()}</p>
+            <p>{`from: ${action.from}`}</p>
+            <p className="font-bold">{action.sum}</p>
+            <p>{`to: ${action.to}`}</p>
+          </a>
+        </Link>
       </li>
     );
   });
