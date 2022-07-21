@@ -1,3 +1,5 @@
+import { ICategory } from './category';
+
 export interface IAction {
   id: number;
   sum: string;
@@ -8,4 +10,6 @@ export interface IAction {
 }
 export interface IActionProps {
   action: IAction;
+  catFrom: ICategory;
+  catTo: ICategory;
 }
