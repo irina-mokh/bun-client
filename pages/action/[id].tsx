@@ -8,11 +8,11 @@ export default function Action({ action, catFrom, catTo }: IActionProps) {
   const { register, handleSubmit, watch } = useForm();
 
   const onSubmit = (data) => console.log(data);
-  
+
   const { sum, createdAt } = action;
 
-  const fromOptions = () 
-  const toOptions = 
+  // const fromOptions = ()
+  // const toOptions =
 
   return (
     <div className="container mx-auto px-2 max-w-sm">
@@ -25,7 +25,7 @@ export default function Action({ action, catFrom, catTo }: IActionProps) {
             {...register('from', { required: true })}
             className={styles.input}
           >
-            {fromOptions}
+            {/* {fromOptions} */}
           </select>
           <span>&#8595;</span>
           <select
@@ -34,7 +34,7 @@ export default function Action({ action, catFrom, catTo }: IActionProps) {
             {...register('to', { required: true })}
             className={styles.input}
           >
-            {toOptions}
+            {/* {toOptions} */}
           </select>
         </fieldset>
         <div className="flex justify-between">

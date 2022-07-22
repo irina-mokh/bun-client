@@ -1,12 +1,16 @@
 import { useRouter } from 'next/router';
-import { IAction } from '../../interfaces/action';
-import { ICategory } from '../../interfaces/category';
 import Link from 'next/link';
 
-interface CategoryProps {
-  cat: ICategory;
-  acts: IAction[];
-}
+import { AppDispatch } from '../../store';
+import { selectMain } from '../../store/main/selectors';
+import { selectCategory } from '../../store/category/selectors';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { getAllCategories } from '../../store/main/action';
+import { getActions } from '../../store/category/action';
+
+import { CategoryProps } from '../../interfaces/category';
+
 export default function Category({ cat, acts }: CategoryProps) {
   const { query } = useRouter();
 
@@ -37,13 +41,20 @@ export default function Category({ cat, acts }: CategoryProps) {
 }
 
 export async function getServerSideProps({ params }) {
-  const response1 = await fetch(`https://bun-app.herokuapp.com/api/category/${params.id}`);
-  const cat = await response1.json();
+  const { categories } = useSelector(selectMain);
+  const dispatch: AppDispatch = useDispatch();
+  dispatch(getAllCategories());
 
-  const response2 = await fetch(`https://bun-app.herokuapp.com/api/action?catId=${params.id}`);
-  const acts = await response2.json();
+  const { actions } = useSelector(selectCategory);
+  dispatch(getActions(params.id));
+
+  // const response1 = await fetch(`https://bun-app.herokuapp.com/api/category/${params.id}`);
+  // const cat = await response1.json();
+
+  // const response2 = await fetch(`https://bun-app.herokuapp.com/api/action?catId=${params.id}`);
+  // const acts = await response2.json();
 
   return {
-    props: { cat, acts },
+    props: { categories, actions },
   };
 }
