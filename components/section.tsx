@@ -7,6 +7,7 @@ interface SectionProps {
 }
 export const Section = (props: SectionProps) => {
   const { data } = props;
+  console.log(data);
   const buns = data.map((item) => (
     <li key={item.id}>
       <Bun {...item}></Bun>

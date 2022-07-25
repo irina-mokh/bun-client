@@ -3,16 +3,42 @@ import { IActionProps } from '../../interfaces/action';
 import { useForm } from 'react-hook-form';
 import styles from '../../styles/Action.module.css';
 
-export default function Action({ action, catFrom, catTo }: IActionProps) {
-  const { query } = useRouter();
-  const { register, handleSubmit, watch } = useForm();
+import { wrapper } from '../../store';
+import { selectCategory } from '../../store/category/selectors';
+import { selectMain } from '../../store/main/selectors';
 
+import { useSelector } from 'react-redux';
+
+export default function Action() {
+  const { query } = useRouter();
+  const id = Number(query.id);
+
+  const { actions } = useSelector(selectCategory);
+  const { categories } = useSelector(selectMain);
+  console.log(actions);
+
+  const action = actions.find((act) => act.id === id);
+  const sum = action?.sum;
+  const createdAt = action?.createdAt;
+
+  const catFrom = categories.find((cat) => cat.id === action?.from);
+  const catTo = categories.find((cat) => cat.id === action?.to);
+
+  const { register, handleSubmit } = useForm();
   const onSubmit = (data) => console.log(data);
 
-  const { sum, createdAt } = action;
-
-  // const fromOptions = ()
-  // const toOptions =
+  // const fromOptions = () => (
+  //   <>
+  //     <option>1</option>
+  //     <option>2</option>
+  //   </>
+  // );
+  // const toOptions = () => (
+  //   <>
+  //     <option>1</option>
+  //     <option>2</option>
+  //   </>
+  // );
 
   return (
     <div className="container mx-auto px-2 max-w-sm">
@@ -21,7 +47,7 @@ export default function Action({ action, catFrom, catTo }: IActionProps) {
         <fieldset className="flex flex-col my-3">
           <select
             id="from"
-            defaultValue={catFrom.name}
+            defaultValue={catFrom?.name}
             {...register('from', { required: true })}
             className={styles.input}
           >
@@ -30,7 +56,7 @@ export default function Action({ action, catFrom, catTo }: IActionProps) {
           <span>&#8595;</span>
           <select
             id="to"
-            defaultValue={catTo.name}
+            defaultValue={catTo?.name}
             {...register('to', { required: true })}
             className={styles.input}
           >
@@ -64,18 +90,8 @@ export default function Action({ action, catFrom, catTo }: IActionProps) {
   );
 }
 
-export async function getServerSideProps({ params }) {
-  const response = await fetch(`https://bun-app.herokuapp.com/api/action/${params.id}`);
-  const action = await response.json();
-  // get data of Category FROM
-  const catFromResponse = await fetch(`https://bun-app.herokuapp.com/api/category/${action.from}`);
-  const catFrom = await catFromResponse.json();
-
-  // get data of Category TO
-  const catToResponse = await fetch(`https://bun-app.herokuapp.com/api/category/${action.to}`);
-  const catTo = await catToResponse.json();
-
-  return {
-    props: { action, catFrom, catTo },
-  };
-}
+// export const getServerSideProps = wrapper.getServerSideProps((store) => async (ctx) => {
+//   return {
+//     props: { action, catFrom, catTo },
+//   };
+// });
