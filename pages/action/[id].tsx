@@ -25,18 +25,20 @@ export default function Action() {
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => console.log(data);
 
-  // const fromOptions = () => (
-  //   <>
-  //     <option>1</option>
-  //     <option>2</option>
-  //   </>
-  // );
-  // const toOptions = () => (
-  //   <>
-  //     <option>1</option>
-  //     <option>2</option>
-  //   </>
-  // );
+  const sources = categories.filter((cat) => cat.type === 'income' || cat.type === 'asset');
+  const targets = categories.filter((cat) => cat.type === 'asset' || cat.type === 'expense');
+
+  const fromOptions = sources.map(item => (
+    <option value={item.name} key={item.id}>
+      {item.name}
+    </option>
+  ));
+
+  const toOptions = targets.map(item => (
+    <option value={item.name} key={item.id}>
+      {item.name}
+    </option>
+  ));
 
   return (
     <div className="container mx-auto px-2 max-w-sm">
@@ -49,8 +51,7 @@ export default function Action() {
             {...register('from', { required: true })}
             className={styles.input}
           >
-            <option value={catFrom?.name}>{catFrom?.name}</option>
-            {/* {fromOptions} */}
+            {fromOptions}
           </select>
           <span>&#8595;</span>
           <select
@@ -59,9 +60,7 @@ export default function Action() {
             {...register('to', { required: true })}
             className={styles.input}
           >
-            <option value={catTo?.name}>{catTo?.name}</option>
-
-            {/* {toOptions} */}
+            {toOptions}
           </select>
         </fieldset>
         <div className="flex justify-between">
