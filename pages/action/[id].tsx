@@ -1,28 +1,23 @@
 import { useRouter } from 'next/router';
-import { IActionProps } from '../../interfaces/action';
+import { IAction } from '../../interfaces/action';
 import { useForm } from 'react-hook-form';
 import styles from '../../styles/Action.module.css';
 
-import { wrapper } from '../../store';
-import { selectCategory } from '../../store/category/selectors';
 import { selectMain } from '../../store/main/selectors';
 
 import { useSelector } from 'react-redux';
+import { ICategory } from '../../interfaces/category';
 
 export default function Action() {
   const { query } = useRouter();
   const id = Number(query.id);
 
-  const { actions } = useSelector(selectCategory);
-  const { categories } = useSelector(selectMain);
-  console.log(actions);
+  const { actions, categories } = useSelector(selectMain);
+  const action = actions.find((act: IAction) => act.id === id);
+  const { sum, createdAt } = action;
 
-  const action = actions.find((act) => act.id === id);
-  const sum = action?.sum;
-  const createdAt = action?.createdAt;
-
-  const catFrom = categories.find((cat) => cat.id === action?.from);
-  const catTo = categories.find((cat) => cat.id === action?.to);
+  const catFrom = categories.find((cat: ICategory) => cat.id === action?.from);
+  const catTo = categories.find((cat: ICategory) => cat.id === action?.to);
 
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => console.log(data);
@@ -51,6 +46,7 @@ export default function Action() {
             {...register('from', { required: true })}
             className={styles.input}
           >
+            <option value={catFrom?.name}>{catFrom?.name}</option>
             {/* {fromOptions} */}
           </select>
           <span>&#8595;</span>
@@ -60,6 +56,8 @@ export default function Action() {
             {...register('to', { required: true })}
             className={styles.input}
           >
+            <option value={catTo?.name}>{catTo?.name}</option>
+
             {/* {toOptions} */}
           </select>
         </fieldset>
@@ -89,9 +87,3 @@ export default function Action() {
     </div>
   );
 }
-
-// export const getServerSideProps = wrapper.getServerSideProps((store) => async (ctx) => {
-//   return {
-//     props: { action, catFrom, catTo },
-//   };
-// });

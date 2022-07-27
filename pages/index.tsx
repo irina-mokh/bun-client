@@ -6,9 +6,6 @@ import { ICategory } from '../interfaces/category';
 
 import { Section } from '../components/section';
 import { AppDispatch, wrapper } from '../store';
-import { store } from '../store';
-import { selectMain } from '../store/main/selectors';
-import { selectCategory } from '../store/category/selectors';
 import { getAllCategories } from '../store/main/action';
 
 interface HomeProps {
@@ -51,7 +48,7 @@ const Home = ({ categories }: HomeProps) => {
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (ctx) => {
   await store.dispatch(getAllCategories());
-  const categories = store.getState().main.categories;
+  const { categories } = store.getState().main;
   return { props: { categories } };
 });
 
@@ -68,5 +65,4 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async (c
 // const response = await fetch(`https://bun-app.herokuapp.com/api/category`);
 // const categories = await response.json();
 
-// export default Home;
 export default Home;

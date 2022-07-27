@@ -2,12 +2,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 
 import { wrapper } from '../../store';
-// import { selectMain } from '../../store/main/selectors';
-// import { selectCategory } from '../../store/category/selectors';
-// import { useDispatch, useSelector } from 'react-redux';
-
-// import { getAllCategories } from '../../store/main/action';
-import { getActions } from '../../store/category/action';
+import { getActions } from '../../store/main/action';
 
 import { CategoryProps } from '../../interfaces/category';
 
@@ -43,8 +38,7 @@ export default function Category({ cat, acts }: CategoryProps) {
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (ctx) => {
   const id = Number(ctx.params?.id);
   await store.dispatch(getActions(id));
-  const { actions } = store.getState().category;
-  const { categories } = store.getState().main;
+  const { actions, categories } = store.getState().main;
   const category = categories.filter((cat) => cat.id == id);
 
   return {
