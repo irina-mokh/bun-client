@@ -1,12 +1,15 @@
-import { useRouter } from 'next/router';
-import { IAction } from '../../interfaces/action';
-import { useForm } from 'react-hook-form';
 import styles from '../../styles/Action.module.css';
 
-import { selectMain } from '../../store/main/selectors';
-
+import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
+
+import { IAction } from '../../interfaces/action';
 import { ICategory } from '../../interfaces/category';
+
+import { selectMain } from '../../store/main/selectors';
+import { wrapper } from '../../store';
+import { getAction } from '../../store/main/action';
 
 export default function Action() {
   const { query } = useRouter();
@@ -87,3 +90,8 @@ export default function Action() {
     </div>
   );
 }
+
+export const getServerSideProps = wrapper.getServerSideProps((store) => async (ctx) => {
+  const id = Number(ctx.params?.id);
+  await store.dispatch(getAction(id));
+});

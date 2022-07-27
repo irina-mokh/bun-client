@@ -1,17 +1,19 @@
 import { configureStore, ThunkAction, Action, AnyAction } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
-import { diff } from 'jsondiffpatch';
+import thunk from 'redux-thunk';
+import { createWrapper, HYDRATE } from 'next-redux-wrapper';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
 // import { authReducer } from './auth/reducer';
 import mainReducer from './main/reducer';
-import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 
 const rootReducers = combineReducers({
   main: mainReducer,
   // auth: authReducer,
 });
 
-const reducer = (state: ReturnType<typeof rootReducers>, action: AnyAction) => {
+const reducer = (state: ReturnType<typeof rootReducers>, action) => {
   if (action.type === HYDRATE) {
     const nextState = {
       ...state, // use previous state
@@ -34,14 +36,24 @@ const reducer = (state: ReturnType<typeof rootReducers>, action: AnyAction) => {
   }
 };
 
-const makeStore = () =>
-  configureStore({
-    reducer,
-  });
+const persistConfig = {
+  key: 'root',
+  storage,
+  // whitelist: ['main'],
+};
+const persistedReducer = persistReducer(persistConfig, reducer);
 
-type Store = ReturnType<typeof makeStore>;
-export type AppDispatch = Store['dispatch'];
-export type RootState = ReturnType<Store['getState']>;
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: [thunk]
+});
+
+export const persistor = persistStore(store);
+
+const makeStore = () => store;
+
+export type AppDispatch = typeof store.dispatch;
+export type RootState = typeof store.getState;
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   RootState,

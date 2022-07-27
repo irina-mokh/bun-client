@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { wrapper } from '../../store';
 import { getActions } from '../../store/main/action';
 
-import { CategoryProps } from '../../interfaces/category';
+import { CategoryProps, ICategory } from '../../interfaces/category';
 
 export default function Category({ cat, acts }: CategoryProps) {
   const { query } = useRouter();
@@ -39,7 +39,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async (c
   const id = Number(ctx.params?.id);
   await store.dispatch(getActions(id));
   const { actions, categories } = store.getState().main;
-  const category = categories.filter((cat) => cat.id == id);
+  const category = categories.filter((cat: ICategory) => cat.id == id);
 
   return {
     props: {
