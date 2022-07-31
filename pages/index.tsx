@@ -7,6 +7,7 @@ import { getAllCategories } from '../store/main/action';
 interface HomeProps {
   categories: [ICategory];
 }
+
 const Home = ({ categories }: HomeProps) => {
   const incomes: ICategory[] = [];
   const assets: ICategory[] = [];

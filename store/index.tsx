@@ -1,9 +1,13 @@
-import { configureStore, ThunkAction, Action, AnyAction } from '@reduxjs/toolkit';
+import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
+import { useDispatch, useSelector } from 'react-redux';
+import type { TypedUseSelectorHook } from 'react-redux';
 import thunk from 'redux-thunk';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+
+import { IState } from '../interfaces/store';
 
 // import { authReducer } from './auth/reducer';
 import mainReducer from './main/reducer';
@@ -13,27 +17,27 @@ const rootReducers = combineReducers({
   // auth: authReducer,
 });
 
-const reducer = (state: ReturnType<typeof rootReducers>, action) => {
+const reducer: typeof rootReducers = (state, action) => {
+  const nextState: IState = {
+    ...state, // use previous state
+    ...action.payload, // apply delta from hydration
+  };
   if (action.type === HYDRATE) {
-    const nextState = {
-      ...state, // use previous state
-      ...action.payload, // apply delta from hydration
-    };
     // preserve state
     const main = {
       ...nextState.main,
     };
-    if (state.main.categories.length) main.categories = state.main.categories;
-    if (state.main.actions.length) main.actions = state.main.actions;
+    if (state) {
+      if (state.main.categories.length) main.categories = state.main.categories;
+      if (state.main.actions.length) main.actions = state.main.actions;
+    }
     nextState.main = main;
 
-    console.log('___HYDRATE: state ', state);
-    console.log('___HYDRATE: payload ', action.payload);
-    console.log('___HYDRATE: nextState ', nextState);
-    return nextState;
-  } else {
-    return rootReducers(state, action);
+    // console.log('___HYDRATE: state ', state);
+    // console.log('___HYDRATE: payload ', action.payload);
+    // console.log('___HYDRATE: nextState ', nextState);
   }
+  return rootReducers(nextState, action);
 };
 
 const persistConfig = {
@@ -45,7 +49,7 @@ const persistedReducer = persistReducer(persistConfig, reducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
-  middleware: [thunk]
+  middleware: [thunk],
 });
 
 export const persistor = persistStore(store);
@@ -61,4 +65,8 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   Action<string>
 >;
 
-export const wrapper = createWrapper(makeStore, { debug: true });
+// Use throughout your app instead of plain `useDispatch` and `useSelector`
+export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+
+export const wrapper = createWrapper(makeStore);

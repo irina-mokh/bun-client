@@ -1,17 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ICategory } from '../../interfaces/category';
-
-import { HYDRATE } from 'next-redux-wrapper';
-import { diff } from 'jsondiffpatch';
-import { IAction } from '../../interfaces/action';
-
-export type IMainState = {
-  error: string | null,
-  isLoading: boolean,
-  categories: ICategory[] | [],
-  actions: IAction[] | [],
-  action: IAction | null,
-};
+import { IMainState } from '../../interfaces/store';
 
 const initialState: IMainState = {
   error: null,
