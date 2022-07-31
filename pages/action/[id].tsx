@@ -25,16 +25,20 @@ export default function Action() {
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => console.log(data);
 
-  const sources = categories.filter((cat) => cat.type === 'income' || cat.type === 'asset');
-  const targets = categories.filter((cat) => cat.type === 'asset' || cat.type === 'expense');
+  const sources = categories.filter(
+    (cat: ICategory) => cat.type === 'income' || cat.type === 'asset'
+  );
+  const targets = categories.filter(
+    (cat: ICategory) => cat.type === 'asset' || cat.type === 'expense'
+  );
 
-  const fromOptions = sources.map(item => (
+  const fromOptions = sources.map((item: ICategory) => (
     <option value={item.name} key={item.id}>
       {item.name}
     </option>
   ));
 
-  const toOptions = targets.map(item => (
+  const toOptions = targets.map((item: ICategory) => (
     <option value={item.name} key={item.id}>
       {item.name}
     </option>
