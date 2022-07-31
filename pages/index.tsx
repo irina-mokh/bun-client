@@ -1,7 +1,7 @@
 import { ICategory } from '../interfaces/category';
 
 import { Section } from '../components/section';
-import { wrapper } from '../store';
+import { wrapper, AppThunkDispatch } from '../store';
 import { getAllCategories } from '../store/main/action';
 
 interface HomeProps {
@@ -37,7 +37,8 @@ const Home = ({ categories }: HomeProps) => {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
-  await store.dispatch(getAllCategories());
+  const dispatch: AppThunkDispatch = store.dispatch;
+  await dispatch(getAllCategories());
   const { categories } = store.getState().main;
   return { props: { categories } };
 });

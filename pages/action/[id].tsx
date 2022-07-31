@@ -8,8 +8,6 @@ import { IAction } from '../../interfaces/action';
 import { ICategory } from '../../interfaces/category';
 
 import { selectMain } from '../../store/main/selectors';
-import { wrapper } from '../../store';
-import { getAction } from '../../store/main/action';
 
 export default function Action() {
   const { query } = useRouter();
@@ -94,7 +92,8 @@ export default function Action() {
   );
 }
 
-export const getServerSideProps = wrapper.getServerSideProps((store) => async (ctx) => {
-  const id = Number(ctx.params?.id);
-  await store.dispatch(getAction(id));
-});
+// export const getServerSideProps = wrapper.getServerSideProps((store) => async (ctx) => {
+//   const id = Number(ctx.params?.id);
+//   const dispatch: AppThunkDispatch = store.dispatch;
+//   await dispatch(getAction(id));
+// });

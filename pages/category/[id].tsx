@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
-import { wrapper } from '../../store';
+import { wrapper, AppThunkDispatch } from '../../store';
 import { getActions } from '../../store/main/action';
 
 import { CategoryProps, ICategory } from '../../interfaces/category';
@@ -37,7 +37,8 @@ export default function Category({ cat, acts }: CategoryProps) {
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (ctx) => {
   const id = Number(ctx.params?.id);
-  await store.dispatch(getActions(id));
+  const dispatch: AppThunkDispatch = store.dispatch;
+  dispatch(getActions(id));
   const { actions, categories } = store.getState().main;
   const category = categories.filter((cat: ICategory) => cat.id == id);
 
