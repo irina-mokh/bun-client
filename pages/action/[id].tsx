@@ -51,7 +51,7 @@ export default function Action() {
             id="from"
             defaultValue={catFrom?.name}
             {...register('from', { required: true })}
-            className={styles.input}
+            className="input"
           >
             {fromOptions}
           </select>
@@ -60,7 +60,7 @@ export default function Action() {
             id="to"
             defaultValue={catTo?.name}
             {...register('to', { required: true })}
-            className={styles.input}
+            className="input"
           >
             {toOptions}
           </select>
@@ -70,30 +70,17 @@ export default function Action() {
             id="sum"
             defaultValue={sum}
             {...register('sum', { required: true })}
-            className={styles.input}
+            className="input"
           />
           <input
             type="date"
             defaultValue={String(createdAt).substring(0, 10)}
             {...register('date', { required: true })}
-            className={styles.input}
+            className="input"
           />
         </div>
-        <input
-          type="submit"
-          value="Save"
-          className={
-            styles.input +
-            ' block mx-auto m-3 w-40 hover:bg-brown hover:text-almond active:opacity-90 transition-all'
-          }
-        />
+        <input type="submit" value="Save" className="btn" />
       </form>
     </div>
   );
 }
-
-// export const getServerSideProps = wrapper.getServerSideProps((store) => async (ctx) => {
-//   const id = Number(ctx.params?.id);
-//   const dispatch: AppThunkDispatch = store.dispatch;
-//   await dispatch(getAction(id));
-// });

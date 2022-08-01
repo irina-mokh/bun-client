@@ -21,3 +21,11 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.btn {
+  @apply bg-transparent hover:bg-brown text-brown font-semibold hover:text-almond py-2 px-4 border border-brown hover:border-transparent mx-auto block
+}
+
+.input {
+	@apply border-2 border-brown block p-2 mb-2 w-full
+}

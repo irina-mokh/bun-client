@@ -10,6 +10,7 @@ module.exports = {
       almond: '#ffeccc',
       yellow: '#f5b700',
       red: 'red',
+      transparent: 'transparent',
     },
   },
   plugins: [require('@tailwindcss/forms')],
