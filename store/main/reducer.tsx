@@ -18,19 +18,6 @@ export const mainSlice = createSlice({
     },
   },
   extraReducers: {
-    // [HYDRATE]: (state, action) => {
-    //   for (const prop in state) {
-    //     state.prop = prop ? prop : action.payload.prop;
-    //   }
-    //   const nextState = {
-    //     ...state,
-    //   };
-    //   console.log('___HYDRATE: state ', state);
-    //   console.log('___HYDRATE: payload ', action.payload);
-    //   console.log('___HYDRATE: nextState ', nextState);
-
-    //   return nextState;
-    // },
     'main/getAllCategories/pending': (state) => {
       state.isLoading = true;
       state.error = null;

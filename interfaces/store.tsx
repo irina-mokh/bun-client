@@ -1,5 +1,6 @@
 import { IAction } from './action';
 import { ICategory } from './category';
+import { IUser } from './user';
 
 export type IMainState = {
   error: string | null,
@@ -9,6 +10,13 @@ export type IMainState = {
   action: IAction | null,
 };
 
+export type IAuthState = {
+  user: IUser | null,
+  error: string | null,
+  token: string | null,
+};
+
 export type IState = {
   main: IMainState,
+  auth: IAuthState,
 };

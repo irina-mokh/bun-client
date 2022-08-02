@@ -8,18 +8,18 @@ import storage from 'redux-persist/lib/storage';
 
 import { IState } from '../interfaces/store';
 
-// import { authReducer } from './auth/reducer';
+import authReducer from './auth/reducer';
 import mainReducer from './main/reducer';
 
 const rootReducers = combineReducers({
   main: mainReducer,
-  // auth: authReducer,
+  auth: authReducer,
 });
 
 const reducer: typeof rootReducers = (state, action) => {
-  const nextState: IState = {
-    ...state, // use previous state
-    ...action.payload, // apply delta from hydration
+  let nextState: IState = {
+    ...state,
+    ...action.payload,
   };
   if (action.type === HYDRATE) {
     // preserve state
@@ -30,7 +30,23 @@ const reducer: typeof rootReducers = (state, action) => {
       if (state.main.categories.length) main.categories = state.main.categories;
       if (state.main.actions.length) main.actions = state.main.actions;
     }
+
+    const auth = {
+      ...nextState.auth,
+    };
+    if (state) {
+      if (state.auth.user) auth.user = state.auth.user;
+      if (state.auth.token) auth.token = state.auth.token;
+    }
+
+    nextState.auth = auth;
     nextState.main = main;
+    // clear storage
+    Object.keys(nextState).forEach((key) => {
+      storage.removeItem(`persist:${key}`);
+    });
+    // now destructor the returned action.payload object and get rid of _persist key
+    nextState = (({ _persist, ...rest }) => rest)(action.payload);
 
     // console.log('___HYDRATE: state ', state);
     // console.log('___HYDRATE: payload ', action.payload);
@@ -42,7 +58,8 @@ const reducer: typeof rootReducers = (state, action) => {
 const persistConfig = {
   key: 'root',
   storage,
-  // whitelist: ['main'],
+  whitelist: ['main', 'auth'],
+  blacklist: ['_persist'],
 };
 const persistedReducer = persistReducer(persistConfig, reducer);
 
