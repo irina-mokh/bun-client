@@ -1,10 +1,16 @@
 import { IAction } from './action';
 
-export interface ICategory {
-  id: number;
+export interface ICategoryForm {
   type: string;
-  total: number;
+  total?: number;
   name: string;
+}
+export interface ICategoryNew extends ICategoryForm {
+  userId: number;
+}
+
+export interface ICategory extends ICategoryNew {
+  id: number;
 }
 
 export interface CategoryProps {

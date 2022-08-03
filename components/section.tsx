@@ -21,7 +21,7 @@ export const Section = (props: SectionProps) => {
 
   return (
     <section className="w-full overflow-x-auto">
-      <h2 className="capitalize">{props.type}</h2>
+      <h2 className="capitalize">{props.type + 's'}</h2>
       <ul className="flex my-1 items-center">
         {buns}
         <li key="add">

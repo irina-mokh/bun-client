@@ -1,9 +1,18 @@
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { createCategory } from '../../store/main/action';
+import { ICategoryForm } from '../../interfaces/category';
+import { AppThunkDispatch } from '../../store';
+import { selectAuth } from '../../store/auth/selectors';
 
 export default function AddCategory() {
+  const dispatch: AppThunkDispatch = useDispatch();
   const router = useRouter();
+  const auth = useSelector(selectAuth);
+  const userId = auth.user.id;
   const { query } = router;
   const { catType } = query;
   const [type, setType] = useState(catType);
@@ -14,8 +23,14 @@ export default function AddCategory() {
     });
   }, [type]);
 
-  const { register, handleSubmit } = useForm();
-  const onSubmit = (data) => console.log(data);
+  const { register, handleSubmit } = useForm<ICategoryForm>();
+  const onSubmit: SubmitHandler<ICategoryForm> = (data) => {
+    console.log(data);
+    const { name, type } = data;
+    const total = Number(data.total) || 0;
+    dispatch(createCategory({ name, type, total, userId }));
+    router.push('/');
+  };
 
   const types = ['income', 'asset', 'expense'];
   const typesOptions = types.map((type: string, i) => (
@@ -41,7 +56,7 @@ export default function AddCategory() {
         {type === 'asset' && (
           <>
             <label htmlFor="sum">Sum</label>
-            <input className="input" id="sum" {...register('sum', { required: true })}></input>
+            <input className="input" id="sum" {...register('total', { required: true })}></input>
           </>
         )}
         <input type="submit" value="Create" className="btn" />

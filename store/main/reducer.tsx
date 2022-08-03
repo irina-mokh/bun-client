@@ -31,6 +31,9 @@ export const mainSlice = createSlice({
       state.error = String(action.payload);
       state.isLoading = false;
     },
+    'main/createCategory/fulfilled': (state, action)=>{
+      state.categories.push(action.payload);
+    },
 
     //ACTIONS
     'main/getActions/pending': (state) => {
