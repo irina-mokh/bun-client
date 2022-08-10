@@ -1,29 +1,82 @@
-import Link from 'next/link';
 import { useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
 
 import { IAction } from '../interfaces/action';
 import { ICategory } from '../interfaces/category';
 
 import { selectMain } from '../store/main/selectors';
 
-export const Action = (props: IAction) => {
-  const { id, sum, from, to, createdAt } = props;
-  const date = new Date(createdAt);
+type IActionProps = {
+  item: IAction,
+  catFrom: ICategory,
+  catTo: ICategory,
+};
 
+export default function Action({ item, catFrom, catTo }: IActionProps) {
   const { categories } = useSelector(selectMain);
-  const catFrom = categories.find((cat: ICategory) => cat.id === from);
-  console.log(catFrom);
-  const catTo = categories.find((cat: ICategory) => cat.id === to);
+  const action = item;
+  const { sum, createdAt } = action;
+
+  const { register, handleSubmit } = useForm();
+  const onSubmit = (data) => console.log(data);
+
+  const sources = categories.filter(
+    (cat: ICategory) => cat.type === 'income' || cat.type === 'asset'
+  );
+  const targets = categories.filter(
+    (cat: ICategory) => cat.type === 'asset' || cat.type === 'expense'
+  );
+
+  const fromOptions = sources.map((item: ICategory) => (
+    <option value={item.name} key={item.id}>
+      {item.name}
+    </option>
+  ));
+
+  const toOptions = targets.map((item: ICategory) => (
+    <option value={item.name} key={item.id}>
+      {item.name}
+    </option>
+  ));
 
   return (
-    <Link href={`/action/${id}`}>
-      <a className="flex justify-between border border-slate-400 rounded-lg p-1 m-1 bg-slate-200">
-        <p>{id}</p>
-        <p className="font-bold">{date.toLocaleDateString()}</p>
-        <p>{`from: ${catFrom.name}`}</p>
-        <p className="font-bold">{sum}</p>
-        <p>{`to: ${catTo.name}`}</p>
-      </a>
-    </Link>
+    <div className="container mx-auto max-w-sm px-4">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <fieldset className="flex flex-col my-3">
+          <select
+            id="from"
+            defaultValue={catFrom?.name}
+            {...register('from', { required: true })}
+            className="input"
+          >
+            {fromOptions}
+          </select>
+          <span>&#8595;</span>
+          <select
+            id="to"
+            defaultValue={catTo?.name}
+            {...register('to', { required: true })}
+            className="input"
+          >
+            {toOptions}
+          </select>
+        </fieldset>
+        <div className="flex justify-between">
+          <input
+            id="sum"
+            defaultValue={sum}
+            {...register('sum', { required: true })}
+            className="input"
+          />
+          <input
+            type="date"
+            defaultValue={String(createdAt).substring(0, 10)}
+            {...register('date', { required: true })}
+            className="input"
+          />
+        </div>
+        <input type="submit" value="Save" className="btn" />
+      </form>
+    </div>
   );
-};
+}

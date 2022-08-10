@@ -7,7 +7,6 @@ export const createCategory = createAsyncThunk(
   async function (category: ICategoryNew, { rejectWithValue }) {
     const url = `category`;
     try {
-      console.log(category);
       const response = await axiosClient.post(url, category);
       if (response.status !== 201) {
         throw new Error('error');

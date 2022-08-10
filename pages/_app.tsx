@@ -21,6 +21,7 @@ function App({ Component, pageProps }: AppProps) {
           </Head>
           <Header></Header>
           <Component {...pageProps} />
+          <div id="modal-root"></div>
           <Footer></Footer>
         </div>
       </PersistGate>

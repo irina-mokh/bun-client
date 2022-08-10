@@ -1,34 +1,34 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
-import { ICategory } from '../interfaces/category';
 
-const modalRoot = document.body;
+type ModalProps = {
+  show: boolean;
+  onClose: () => void;
+  title: string;
+  children: React.ReactNode;
+};
 
-interface ModalProps {
-  data: ICategory[];
-  handleClick: () => void;
-}
-
-export const Modal = (props: ModalProps) => {
-  const el = document.createElement('div');
-
+export const Modal = ({ show, onClose, children, title }: ModalProps) => {
+  const [isBrowser, setIsBrowser] = useState(false);
   useEffect(() => {
-    modalRoot.appendChild(el);
-    return () => {
-      modalRoot.removeChild(el);
-    };
-  });
+    setIsBrowser(true);
+  }, []);
 
-  el.classList.add('overlay');
-  el.addEventListener('click', props.handleClick);
-
-  const content = (
-    <div className="modal">
-      <button className="modal__close" onClick={props.handleClick}>
-        X
-      </button>
+  const modalContent = show ? (
+    <div className="absolute top-0 left-0 w-full h-screen bg-light/50 " onClick={() => onClose()}>
+      <div className="modal max-w-sm m-auto mt-2 bg-light">
+        <header className="flex justify-between p-2 bg-gray text-white">
+          {title && <h2>{title}</h2>}
+          <button 
+          className="border-none"
+            onClick={onClose}>
+            x
+          </button>
+        </header>
+        <div className="body">{children}</div>
+      </div>
     </div>
-  );
-
-  return ReactDOM.createPortal(content, el);
+  ) : null;
+  return (isBrowser) ? ReactDOM.createPortal(modalContent, document.getElementById('modal-root')!)
+  : null;
 };

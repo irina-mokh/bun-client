@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 
 import { wrapper, AppThunkDispatch } from '../../store';
 import { getActions } from '../../store/main/action';
-import { Action } from '../../components/action';
+import { ActionThumb } from '../../components/actionThumb';
 import { CategoryProps, ICategory } from '../../interfaces/category';
 
 export default function Category({ cat, acts }: CategoryProps) {
@@ -11,7 +11,7 @@ export default function Category({ cat, acts }: CategoryProps) {
   const actions = acts.map((action) => {
     return (
       <li key={action.id}>
-        <Action {...action}></Action>
+        <ActionThumb {...action}></ActionThumb>
       </li>
     );
   });

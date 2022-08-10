@@ -10,6 +10,7 @@ module.exports = {
       almond: '#ffeccc',
       yellow: '#f5b700',
       red: 'red',
+      white: '#ffffff',
       transparent: 'transparent',
     },
   },
