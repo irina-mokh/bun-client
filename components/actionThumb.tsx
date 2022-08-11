@@ -19,6 +19,10 @@ export const ActionThumb = (props: IAction) => {
 
   const [showModal, setShowModal] = useState(false);
 
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <article
       className="flex justify-between border border-slate-400 rounded-lg p-1 m-1 bg-slate-200"
@@ -29,9 +33,11 @@ export const ActionThumb = (props: IAction) => {
       <p>{`from: ${catFrom.name}`}</p>
       <p className="font-bold">{sum}</p>
       <p>{`to: ${catTo.name}`}</p>
-      <Modal onClose={() => setShowModal(false)} show={showModal} title={`Action ${id}`}>
-        <Action item={props} catFrom={catFrom} catTo={catTo} />
-      </Modal>
+      {showModal ? (
+        <Modal close={closeModal} title={`Action ${id}`}>
+          <Action item={props} catFrom={catFrom} catTo={catTo} />
+        </Modal>
+      ) : null}
     </article>
   );
 };
