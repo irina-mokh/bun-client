@@ -12,11 +12,7 @@ const initialState: IMainState = {
 export const mainSlice = createSlice({
   name: 'main',
   initialState,
-  reducers: {
-    setEnt(state, action) {
-      return action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: {
     'main/getAllCategories/pending': (state) => {
       state.isLoading = true;
@@ -31,8 +27,8 @@ export const mainSlice = createSlice({
       state.error = String(action.payload);
       state.isLoading = false;
     },
-    'main/createCategory/fulfilled': (state, action)=>{
-      state.categories.push(action.payload);
+    'main/createCategory/fulfilled': (state, action) => {
+      state.categories = [...state.categories, action.payload];
     },
 
     //ACTIONS

@@ -1,6 +1,6 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { createCategory } from '../store/main/action';
@@ -10,6 +10,7 @@ import { selectAuth } from '../store/auth/selectors';
 
 interface AddCategoryProps {
   type: string;
+  close: () => void;
 }
 export default function AddCategory(props: AddCategoryProps) {
   const dispatch: AppThunkDispatch = useDispatch();
@@ -21,11 +22,11 @@ export default function AddCategory(props: AddCategoryProps) {
 
   const { register, handleSubmit } = useForm<ICategoryForm>();
   const onSubmit: SubmitHandler<ICategoryForm> = (data) => {
-    console.log(data);
     const { name, type } = data;
     const total = Number(data.total) || 0;
     dispatch(createCategory({ name, type, total, userId }));
-    // router.push('/');
+    router.replace(router.asPath);
+    props.close();
   };
 
   const types = ['income', 'asset', 'expense'];

@@ -23,7 +23,7 @@ export const AddButton = (props: AddButtonProps) => {
       </button>
       {showModal ? (
         <Modal close={closeModal} title={`Add ${props.type}`}>
-          <AddCategory type={props.type} />
+          <AddCategory type={props.type} close={closeModal} />
         </Modal>
       ) : null}
     </>

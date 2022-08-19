@@ -19,7 +19,7 @@ export const Modal = ({ close, children, title }: ModalProps) => {
   };
 
   const modalContent = 
-    <div className="absolute top-0 left-0 w-full h-screen bg-light/50" onClick={closeModal}>
+    <div className="absolute top-0 left-0 w-full h-screen bg-light/50 z-10" onClick={closeModal}>
       <div className="modal max-w-sm m-auto mt-2 bg-almond  drop-shadow-[0_35px_35px_gray]" onClick={e => e.stopPropagation()}>
         <header className="flex justify-between p-2 bg-gray text-white">
           {title && <h2>{title}</h2>}

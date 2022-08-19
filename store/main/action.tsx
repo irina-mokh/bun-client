@@ -8,11 +8,8 @@ export const createCategory = createAsyncThunk(
     const url = `category`;
     try {
       const response = await axiosClient.post(url, category);
-      if (response.status !== 201) {
-        throw new Error('error');
-      } else {
-        return response.data;
-      }
+
+      return response.data;
     } catch (err) {
       console.log('Something went wrong ->', err);
       return rejectWithValue(err);
