@@ -17,6 +17,20 @@ export const createCategory = createAsyncThunk(
   }
 );
 
+export const deleteCategory = createAsyncThunk(
+  'main/deleteCategory',
+  async function (id: number, { rejectWithValue }) {
+    const url = `category`;
+    try {
+      await axiosClient.delete(url, { data: { id: id } });
+      return id;
+    } catch (err) {
+      console.log('Something went wrong ->', err);
+      return rejectWithValue(err);
+    }
+  }
+);
+
 export const getAllCategories = createAsyncThunk(
   'main/getAllCategories',
   async function (id: number, { rejectWithValue }) {

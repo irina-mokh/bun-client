@@ -6,7 +6,6 @@ const initialState: IMainState = {
   isLoading: false,
   categories: [],
   actions: [],
-  action: null,
 };
 
 export const mainSlice = createSlice({
@@ -30,6 +29,10 @@ export const mainSlice = createSlice({
     'main/createCategory/fulfilled': (state, action) => {
       state.categories = [...state.categories, action.payload];
     },
+    'main/deleteCategory/fulfilled': (state, action) => {
+      const { categories } = state;
+      state.categories = categories.filter((item) => item.id !== action.id);
+    },
 
     //ACTIONS
     'main/getActions/pending': (state) => {
@@ -47,13 +50,12 @@ export const mainSlice = createSlice({
       state.error = null;
     },
     'main/getAction/fulfilled': (state, action) => {
-      state.transaction = action.payload;
       state.error = null;
       state.isLoading = false;
     },
   },
 });
 
-// export const {  } = mainSlice.actions;
+//export const { } = mainSlice.actions;
 
 export default mainSlice.reducer;

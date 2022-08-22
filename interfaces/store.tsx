@@ -7,7 +7,6 @@ export type IMainState = {
   isLoading: boolean,
   categories: ICategory[] | [],
   actions: IAction[] | [],
-  action: IAction | null,
 };
 
 export type IAuthState = {

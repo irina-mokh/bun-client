@@ -24,7 +24,7 @@ export const Bun = (props: ICategory) => {
       </Link>
       <p className="font-bold">{total}</p>
       {/* temp */}
-      <p className="absolute top-0.5 right-2 z-10 text-red bg-linen">{id}</p>
+      <p className="absolute top-0 right-0 z-10 text-red bg-linen">{id}</p>
     </div>
   );
 };

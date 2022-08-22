@@ -27,8 +27,8 @@ const reducer: typeof rootReducers = (state, action) => {
       ...nextState.main,
     };
     if (state) {
-      if (state.main.categories.length) main.categories = state.main.categories;
-      if (state.main.actions.length) main.actions = state.main.actions;
+      if (state.main.categories.length > 0) main.categories = state.main.categories;
+      if (state.main.actions.length > 0) main.actions = state.main.actions;
     }
 
     const auth = {
