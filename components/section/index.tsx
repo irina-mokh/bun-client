@@ -1,6 +1,8 @@
-import { ICategory } from '../interfaces/category';
-import { Bun } from '../components/bun';
-import { AddButton } from '../components/addButton';
+import styles from './section.module.scss';
+
+import { ICategory } from '../../interfaces/category';
+import { Bun } from '../bun';
+import { AddButton } from '../addButton';
 
 interface SectionProps {
   data: ICategory[];
@@ -20,9 +22,9 @@ export const Section = (props: SectionProps) => {
   );
 
   return (
-    <section className="w-full overflow-x-auto">
-      <h2 className="capitalize">{props.type + 's'}</h2>
-      <ul className="flex my-1 items-center">
+    <section className={styles.section}>
+      <h2 className={styles.heading}>{props.type + 's'}</h2>
+      <ul className={styles.list}>
         {buns}
         <li key="add">
           <AddButton type={props.type}></AddButton>

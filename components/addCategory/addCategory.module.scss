@@ -1,0 +1,13 @@
+.form {
+	.fieldset {
+		@apply flex justify-between items-end;
+	}
+	.catName,
+	.catType {
+		@apply  w-full;
+	}
+
+	.catType {
+		@apply ml-2;
+	}
+}

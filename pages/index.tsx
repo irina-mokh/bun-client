@@ -4,10 +4,10 @@ import { Section } from '../components/section';
 import { wrapper, AppThunkDispatch } from '../store';
 import { getAllCategories } from '../store/main/action';
 
-import { useDispatch, useSelector } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
 
 import { login } from '../store/auth/actions';
-import { selectAuth } from '../store/auth/selectors';
+// import { selectAuth } from '../store/auth/selectors';
 
 interface HomeProps {
   categories: [ICategory];
@@ -43,7 +43,7 @@ const Home = ({ categories }: HomeProps) => {
   });
   return (
     <main className="grid grid-rows-[120px_120px_minmax(120px,_1fr)] my-2">
-      <div className="container mx-auto px-2">
+      <div className="container-lg mx-auto px-2">
         <Section data={incomes} type="income"></Section>
         <Section data={assets} type="asset"></Section>
         <Section data={expenses} type="expense"></Section>

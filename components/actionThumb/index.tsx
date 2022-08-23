@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react';
+import styles from './actionThumb.module.scss';
+
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { IAction } from '../interfaces/action';
-import { ICategory } from '../interfaces/category';
+import { IAction } from '../../interfaces/action';
+import { ICategory } from '../../interfaces/category';
 
-import { selectMain } from '../store/main/selectors';
-import Action from './action';
-import { Modal } from '../components/modal';
+import { selectMain } from '../../store/main/selectors';
+import { Action } from '../action';
+import { Modal } from '../modal';
 
 export const ActionThumb = (props: IAction) => {
   const { id, sum, from, to, createdAt } = props;
@@ -24,15 +26,12 @@ export const ActionThumb = (props: IAction) => {
   };
 
   return (
-    <article
-      className="flex justify-between border border-slate-400 rounded-lg p-1 m-1 bg-slate-200"
-      onClick={() => setShowModal(true)}
-    >
-      <p>{id}</p>
-      <p className="font-bold">{date.toLocaleDateString()}</p>
-      <p>{`from: ${catFrom.name}`}</p>
+    <article className={styles.actionThumb} onClick={() => setShowModal(true)}>
+      <p className={styles.actionThumb__id}>{id}</p>
+      <p className={styles.actionThumb__date}>{date.toLocaleDateString()}</p>
+      <p className={styles.actionThumb__cat}>{`from: ${catFrom.name}`}</p>
       <p className="font-bold">{sum}</p>
-      <p>{`to: ${catTo.name}`}</p>
+      <p className={styles.actionThumb__cat}>{`to: ${catTo.name}`}</p>
       {showModal ? (
         <Modal close={closeModal} title={`Action ${id}`}>
           <Action item={props} catFrom={catFrom} catTo={catTo} />

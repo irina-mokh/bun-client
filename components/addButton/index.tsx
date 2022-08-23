@@ -1,7 +1,7 @@
-import Link from 'next/link';
+import styles from './addButton.module.scss';
 import { useState } from 'react';
-import AddCategory from './addCategory';
-import { Modal } from '../components/modal';
+import AddCategory from '../addCategory';
+import { Modal } from '../modal';
 
 interface AddButtonProps {
   type: string;
@@ -15,10 +15,7 @@ export const AddButton = (props: AddButtonProps) => {
 
   return (
     <>
-      <button
-        onClick={() => setShowModal(true)}
-        className={`rounded-full w-16 h-16 flex flex-col justify-center items-center mr-2 border-2 border-dotted border-slate-400 text-2xl`}
-      >
+      <button onClick={() => setShowModal(true)} className={styles.addButton}>
         +
       </button>
       {showModal ? (

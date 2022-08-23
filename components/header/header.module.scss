@@ -1,0 +1,12 @@
+.header {
+	@apply bg-slate-600 bg-opacity-40 shadow-lg;
+	.nav {
+		@apply flex items-center;
+		.logo {
+			@apply cursor-pointer flex items-center;
+			&__text {
+				@apply text-2xl font-semibold ml-2
+			}
+		}
+	}
+}

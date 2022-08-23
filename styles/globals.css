@@ -5,7 +5,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  @apply 	bg-almond h-screen;
+  @apply 	bg-slate-700 h-screen text-slate-50;
 
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
@@ -23,9 +23,13 @@ a {
 }
 
 .btn {
-  @apply bg-transparent hover:bg-brown text-brown font-semibold hover:text-almond py-2 px-4 border border-brown hover:border-transparent mx-auto block
+  @apply bg-transparent hover:bg-amber-300 text-amber-300 font-semibold hover:text-slate-800 py-2 px-10 border border-amber-300 hover:border-transparent mx-auto my-1 block
 }
 
 .input {
-	@apply border-2 border-brown block p-2 mb-2 w-full
+	@apply border-2 border-slate-800 block p-2 my-2 bg-slate-700;
+}
+
+.box {
+  @apply container mx-auto p-3 max-w-3xl;
 }

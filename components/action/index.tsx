@@ -1,10 +1,12 @@
+import styles from './action.module.scss';
+
 import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
-import { IAction } from '../interfaces/action';
-import { ICategory } from '../interfaces/category';
+import { IAction } from '../../interfaces/action';
+import { ICategory } from '../../interfaces/category';
 
-import { selectMain } from '../store/main/selectors';
+import { selectMain } from '../../store/main/selectors';
 
 type IActionProps = {
   item: IAction,
@@ -12,7 +14,7 @@ type IActionProps = {
   catTo: ICategory,
 };
 
-export default function Action({ item, catFrom, catTo }: IActionProps) {
+export const Action = ({ item, catFrom, catTo }: IActionProps) => {
   const { categories } = useSelector(selectMain);
   const action = item;
   const { sum, createdAt } = action;
@@ -40,9 +42,9 @@ export default function Action({ item, catFrom, catTo }: IActionProps) {
   ));
 
   return (
-    <div className="container mx-auto max-w-sm px-4">
+    <div className={styles.action}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <fieldset className="flex flex-col my-3">
+        <fieldset className={styles.action__fieldset}>
           <select
             id="from"
             defaultValue={catFrom?.name}
@@ -60,21 +62,21 @@ export default function Action({ item, catFrom, catTo }: IActionProps) {
           >
             {toOptions}
           </select>
+          <div className={styles.action__info}>
+            <input
+              id="sum"
+              defaultValue={sum}
+              {...register('sum', { required: true })}
+              className="input w-5/12"
+            />
+            <input
+              type="date"
+              defaultValue={String(createdAt).substring(0, 10)}
+              {...register('date', { required: true })}
+              className="input w-5/12"
+            />
+          </div>
         </fieldset>
-        <div className="flex justify-between">
-          <input
-            id="sum"
-            defaultValue={sum}
-            {...register('sum', { required: true })}
-            className="input"
-          />
-          <input
-            type="date"
-            defaultValue={String(createdAt).substring(0, 10)}
-            {...register('date', { required: true })}
-            className="input"
-          />
-        </div>
         <input type="submit" value="Save" className="btn" />
       </form>
     </div>

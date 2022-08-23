@@ -1,0 +1,11 @@
+.section {
+	@apply w-full overflow-x-auto mb-3;
+}
+
+.heading {
+	@apply capitalize font-bold;
+}
+
+.list {
+	@apply flex my-1 items-center;
+}
