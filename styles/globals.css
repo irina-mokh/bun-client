@@ -31,5 +31,5 @@ a {
 }
 
 .box {
-  @apply container mx-auto p-3 max-w-3xl;
+  @apply container mx-auto px-3 max-w-3xl;
 }

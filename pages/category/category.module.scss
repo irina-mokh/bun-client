@@ -1,0 +1,11 @@
+.category {
+	@apply container px-4 mx-auto;
+}
+.header {
+	@apply flex justify-between font-bold text-xl capitalize;
+}
+
+
+.list {
+	@apply mt-3
+}

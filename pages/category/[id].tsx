@@ -1,3 +1,5 @@
+import styles from './category.module.scss';
+
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 
@@ -28,16 +30,14 @@ export default function Category({ cat, acts }: CategoryProps) {
   };
 
   return (
-    <div className="container px-4 mx-auto">
-      <header className="flex justify-between p-2 bg-gray text-white mt-2">
-        <h1>Category c id {query.id}</h1>
+    <div className="box">
+      <header className={styles.header}>
+        <h2>{cat.name}</h2>
         <button className="border-none" onClick={handleDelete}>
           🗙
         </button>
       </header>
-      <h2>{cat.name}</h2>
-      <p>{cat.name}</p>
-      <ul>{actions}</ul>
+      <ul className={styles.list}>{actions}</ul>
     </div>
   );
 }
@@ -48,10 +48,9 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async (c
   await dispatch(getActions(id));
   const { actions, categories } = store.getState().main;
   const category = categories.filter((cat: ICategory) => cat.id == id);
-
   return {
     props: {
-      cat: category,
+      cat: category.length ? category[0] : {},
       acts: actions,
     },
   };

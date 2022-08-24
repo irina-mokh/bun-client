@@ -9,7 +9,7 @@ interface SectionProps {
   type: string;
 }
 export const Section = (props: SectionProps) => {
-  const { data } = props;
+  const { data, type } = props;
 
   const buns = data.length ? (
     data.map((item) => (
@@ -22,9 +22,9 @@ export const Section = (props: SectionProps) => {
   );
 
   return (
-    <section className={styles.section}>
+    <section className={`${styles.section} ${styles.section}_${type}`}>
       <h2 className={styles.heading}>{props.type + 's'}</h2>
-      <ul className={styles.list}>
+      <ul className={`${styles.list} ${styles.list}_${type}`}>
         {buns}
         <li key="add">
           <AddButton type={props.type}></AddButton>

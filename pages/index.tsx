@@ -42,8 +42,8 @@ const Home = ({ categories }: HomeProps) => {
     }
   });
   return (
-    <main className="grid grid-rows-[120px_120px_minmax(120px,_1fr)] my-2">
-      <div className="container-lg mx-auto px-2">
+    <main className="grid grid-rows-[130px_130px_1fr] my-2 overflow-hidden">
+      <div className="box">
         <Section data={incomes} type="income"></Section>
         <Section data={assets} type="asset"></Section>
         <Section data={expenses} type="expense"></Section>
