@@ -77,8 +77,8 @@ export const Action = ({ item, catFrom, catTo }: IActionProps) => {
             />
           </div>
         </fieldset>
-        <input type="submit" value="Save" className="btn" />
+        <input type="submit" value="Save" className="btn btn_yellow" />
       </form>
     </div>
   );
-}
+};

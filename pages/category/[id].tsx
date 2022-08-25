@@ -2,6 +2,7 @@ import styles from './category.module.scss';
 
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
+import Link from 'next/link';
 
 import { wrapper, AppThunkDispatch } from '../../store';
 import { getActions } from '../../store/main/action';
@@ -31,10 +32,13 @@ export default function Category({ cat, acts }: CategoryProps) {
 
   return (
     <div className="box">
+      <Link href="/">
+        <a className={styles.back}>{`< Back`}</a>
+      </Link>
       <header className={styles.header}>
-        <h2>{cat.name}</h2>
-        <button className="border-none" onClick={handleDelete}>
-          🗙
+        <h2 className={styles.title}>{cat.name}</h2>
+        <button className="btn btn_red" onClick={handleDelete}>
+          Delete
         </button>
       </header>
       <ul className={styles.list}>{actions}</ul>

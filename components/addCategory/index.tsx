@@ -66,7 +66,7 @@ export default function AddCategory(props: AddCategoryProps) {
             ></input>
           </>
         )}
-        <input type="submit" value="Create" className="btn" />
+        <input type="submit" value="Create" className="btn btn_yellow" />
       </form>
     </div>
   );
