@@ -16,42 +16,43 @@ const rootReducers = combineReducers({
   auth: authReducer,
 });
 
-const reducer: typeof rootReducers = (state, action) => {
+const reducer: typeof rootReducers = (state: IState, action) => {
   let nextState: IState = {
     ...state,
     ...action.payload,
   };
-  // if (action.type === HYDRATE) {
-  //   // preserve state
-  //   const main = {
-  //     ...nextState.main,
-  //   };
-  //   if (state) {
-  //     if (state.main.categories.length > 0) main.categories = state.main.categories;
-  //     if (state.main.actions.length > 0) main.actions = state.main.actions;
-  //   }
+  if (action.type === HYDRATE) {
+    // preserve state
+    const main = {
+      ...nextState.main,
+    };
 
-  //   const auth = {
-  //     ...nextState.auth,
-  //   };
-  //   if (state) {
-  //     if (state.auth.user) auth.user = state.auth.user;
-  //     if (state.auth.token) auth.token = state.auth.token;
-  //   }
+    const auth = {
+      ...nextState.auth,
+    };
 
-  //   nextState.auth = auth;
-  //   nextState.main = main;
-  //   // clear storage
-  //   Object.keys(nextState).forEach((key) => {
-  //     storage.removeItem(`persist:${key}`);
-  //   });
-  //   // now destructor the returned action.payload object and get rid of _persist key
-  //   nextState = (({ _persist, ...rest }) => rest)(action.payload);
+    main.categories = state.main.categories.length > 0 ? state.main.categories : action.payload.main.categories;
+    main.actions = state.main.actions.length > 0 ? state.main.actions : action.payload.main.actions;
 
-  //   console.log('___HYDRATE: state ', state);
-  //   console.log('___HYDRATE: payload ', action.payload);
-  //   console.log('___HYDRATE: nextState ', nextState);
-  // }
+    auth.user = state.auth.user ? state.auth.user : action.payload.auth.user;
+    auth.token = state.auth.token ? state.auth.token : action.payload.auth.token;
+
+    // console.log('auth:', auth);
+    // console.log('main:', main);
+    nextState.auth = { ...auth };
+    nextState.main = { ...main };
+
+    // console.log('___HYDRATE: state ', state);
+    // console.log('___HYDRATE: payload ', action.payload);
+    // console.log('___HYDRATE: nextState ', nextState);
+
+    // clear storage
+    Object.keys(nextState).forEach((key) => {
+      storage.removeItem(`persist:${key}`);
+    });
+    // now destructor the returned action.payload object and get rid of _persist key
+    nextState = (({ _persist, ...rest }) => rest)(nextState);
+  }
   return rootReducers(nextState, action);
 };
 

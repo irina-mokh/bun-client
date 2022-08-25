@@ -62,7 +62,6 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async ()
 
   const { user } = store.getState().auth;
   const userId = user ? user.id : 0;
-  console.log('-----USER ID:', userId);
 
   await dispatch(getAllCategories(userId));
   const { categories } = store.getState().main;
