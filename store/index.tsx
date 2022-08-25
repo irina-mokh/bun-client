@@ -21,37 +21,37 @@ const reducer: typeof rootReducers = (state, action) => {
     ...state,
     ...action.payload,
   };
-  if (action.type === HYDRATE) {
-    // preserve state
-    const main = {
-      ...nextState.main,
-    };
-    if (state) {
-      if (state.main.categories.length > 0) main.categories = state.main.categories;
-      if (state.main.actions.length > 0) main.actions = state.main.actions;
-    }
+  // if (action.type === HYDRATE) {
+  //   // preserve state
+  //   const main = {
+  //     ...nextState.main,
+  //   };
+  //   if (state) {
+  //     if (state.main.categories.length > 0) main.categories = state.main.categories;
+  //     if (state.main.actions.length > 0) main.actions = state.main.actions;
+  //   }
 
-    const auth = {
-      ...nextState.auth,
-    };
-    if (state) {
-      if (state.auth.user) auth.user = state.auth.user;
-      if (state.auth.token) auth.token = state.auth.token;
-    }
+  //   const auth = {
+  //     ...nextState.auth,
+  //   };
+  //   if (state) {
+  //     if (state.auth.user) auth.user = state.auth.user;
+  //     if (state.auth.token) auth.token = state.auth.token;
+  //   }
 
-    nextState.auth = auth;
-    nextState.main = main;
-    // clear storage
-    Object.keys(nextState).forEach((key) => {
-      storage.removeItem(`persist:${key}`);
-    });
-    // now destructor the returned action.payload object and get rid of _persist key
-    nextState = (({ _persist, ...rest }) => rest)(action.payload);
+  //   nextState.auth = auth;
+  //   nextState.main = main;
+  //   // clear storage
+  //   Object.keys(nextState).forEach((key) => {
+  //     storage.removeItem(`persist:${key}`);
+  //   });
+  //   // now destructor the returned action.payload object and get rid of _persist key
+  //   nextState = (({ _persist, ...rest }) => rest)(action.payload);
 
-    // console.log('___HYDRATE: state ', state);
-    // console.log('___HYDRATE: payload ', action.payload);
-    // console.log('___HYDRATE: nextState ', nextState);
-  }
+  //   console.log('___HYDRATE: state ', state);
+  //   console.log('___HYDRATE: payload ', action.payload);
+  //   console.log('___HYDRATE: nextState ', nextState);
+  // }
   return rootReducers(nextState, action);
 };
 

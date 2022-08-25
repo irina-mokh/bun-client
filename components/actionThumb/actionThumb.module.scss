@@ -2,7 +2,7 @@
 
 @layer components {
 	.actionThumb {
-		@apply relative flex justify-between border border-slate-600 p-2  bg-slate-800 mb-1 bg-opacity-40;
+		@apply relative flex justify-between border border-slate-600 p-2  bg-slate-800 mb-1 bg-opacity-40 hover:cursor-pointer;
 
 		// temp node for development
 		&__id {

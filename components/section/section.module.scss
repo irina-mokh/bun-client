@@ -1,10 +1,15 @@
 .section {
-	@apply w-full border-b-2 border-slate-600 ;
-
-	&_income,
-	&_asset {
-		@apply overflow-x-auto;
+	@apply w-full  overflow-x-auto;
+	&::-webkit-scrollbar {
+    @apply w-1 h-1;
 	}
+	&::-webkit-scrollbar-track {
+    @apply bg-slate-700 bg-opacity-80
+	}
+	&::-webkit-scrollbar-thumb {
+    @apply bg-slate-800 border-r-2 bg-opacity-30;
+}
+
 	.wrap {
 		@apply flex-wrap;
 	}

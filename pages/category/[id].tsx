@@ -31,17 +31,15 @@ export default function Category({ cat, acts }: CategoryProps) {
   };
 
   return (
-    <div className="box">
+    <div className="box flex flex-col justify-start">
       <Link href="/">
         <a className={styles.back}>{`< Back`}</a>
       </Link>
-      <header className={styles.header}>
-        <h2 className={styles.title}>{cat.name}</h2>
-        <button className="btn btn_red" onClick={handleDelete}>
-          Delete
-        </button>
-      </header>
+      <h2 className={styles.title}>{cat.name}</h2>
       <ul className={styles.list}>{actions}</ul>
+      <button className="btn btn_red" onClick={handleDelete}>
+        Delete category
+      </button>
     </div>
   );
 }
