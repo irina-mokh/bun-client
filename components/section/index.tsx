@@ -24,7 +24,7 @@ export const Section = (props: SectionProps) => {
   return (
     <section className={`${styles.section} ${styles.section}_${type}`}>
       <h2 className={styles.heading}>{props.type + 's'}</h2>
-      <ul className={`${styles.list} ${styles.list}_${type}`}>
+      <ul className={`${styles.list} ${type === 'expense' ? styles.wrap : null}`}>
         {buns}
         <li key="add">
           <AddButton type={props.type}></AddButton>

@@ -1,16 +1,15 @@
 .section {
-	@apply w-full my-2 p-1 border-b-2 border-slate-600 ;
+	@apply w-full p-1 border-b-2 border-slate-600 ;
 
 	&_income,
 	&_asset {
 		@apply overflow-x-auto;
 	}
-	
+	.wrap {
+		@apply flex-wrap;
+	}
 	.list {
 		@apply flex my-1 items-center w-full;
-		&_expense {
-			@apply flex-wrap;
-		}
 	}
 }
 
