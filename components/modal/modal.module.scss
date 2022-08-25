@@ -1,9 +1,9 @@
 .overlay {
-	@apply absolute top-0 left-0 flex justify-center items-center w-full h-screen z-10 bg-slate-800 bg-opacity-80;
+	@apply absolute top-0 left-0 flex justify-center items-start w-full h-screen z-10 bg-slate-800 bg-opacity-80;
 }
 
 .popup {
-	@apply bg-slate-600 min-w-[35%];
+	@apply bg-slate-600 min-w-[35%] mt-[10%];
 
 	&__header {
 		@apply flex justify-between px-5 py-2 bg-slate-700 font-bold;

@@ -42,12 +42,10 @@ const Home = ({ categories }: HomeProps) => {
     }
   });
   return (
-    <main className="grid grid-rows-[130px_130px_1fr] my-2 overflow-hidden">
-      <div className="box">
-        <Section data={incomes} type="income"></Section>
-        <Section data={assets} type="asset"></Section>
-        <Section data={expenses} type="expense"></Section>
-      </div>
+    <main className="box grid grid-rows-[130px_130px_1fr]">
+      <Section data={incomes} type="income" />
+      <Section data={assets} type="asset" />
+      <Section data={expenses} type="expense" />
     </main>
   );
 };
