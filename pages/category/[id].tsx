@@ -24,7 +24,7 @@ export default function Category({ cat, acts }: CategoryProps) {
     );
   });
 
-  const handleDelete = (e) => {
+  const handleDelete = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     dispatch(deleteCategory(id));
     router.push('/');

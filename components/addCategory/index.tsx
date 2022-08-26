@@ -2,7 +2,7 @@ import styles from './addCategory.module.scss';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { createCategory } from '../../store/main/action';
@@ -22,7 +22,7 @@ export default function AddCategory(props: AddCategoryProps) {
 
   const [type, setType] = useState(props.type);
 
-  const { register, handleSubmit } = useForm<ICategoryForm>();
+  const { register, handleSubmit, setFocus } = useForm<ICategoryForm>();
   const onSubmit: SubmitHandler<ICategoryForm> = (data) => {
     const { name, type } = data;
     const total = Number(data.total) || 0;
@@ -30,6 +30,10 @@ export default function AddCategory(props: AddCategoryProps) {
     router.replace(router.asPath);
     props.close();
   };
+
+  useEffect(() => {
+    setFocus('name');
+  }, [setFocus]);
 
   const types = ['income', 'asset', 'expense'];
   const typesOptions = types.map((type: string, i) => (
@@ -44,7 +48,12 @@ export default function AddCategory(props: AddCategoryProps) {
         <fieldset className={styles.fieldset}>
           <label htmlFor="name">
             Name:
-            <input id="name" {...register('name', { required: true })} className="input"></input>
+            <input
+              id="name"
+              {...register('name', { required: true })}
+              className="input"
+              placeholder="Category title"
+            />
           </label>
           <select
             id="type"
@@ -63,6 +72,7 @@ export default function AddCategory(props: AddCategoryProps) {
               className={`${styles.catName} input`}
               id="sum"
               {...register('total', { required: true })}
+              placeholder="Sum"
             ></input>
           </>
         )}

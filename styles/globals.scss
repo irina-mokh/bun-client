@@ -31,7 +31,7 @@ a {
 }
 
 .input {
-	@apply border-2 border-slate-800 block p-2 my-2 bg-slate-700;
+	@apply border-2 border-slate-800 block p-2 my-2 bg-slate-700  focus:outline focus:border-transparent outline-2 outline-teal-400;
 }
 
 .box {

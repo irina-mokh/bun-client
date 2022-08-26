@@ -1,9 +1,19 @@
 .category {
-	@apply rounded-full w-20 h-20 flex flex-col justify-center items-center relative mr-2 border-4 bg-slate-600 bg-opacity-50 shadow-md mb-2 hover:cursor-pointer hover:shadow-xl;
+	@apply relative rounded-full w-20 h-20 flex flex-col justify-center items-center mr-2 border-4 bg-slate-600 bg-opacity-50 shadow-md mb-2 hover:cursor-pointer hover:shadow-xl;
+	
 	&__name {
 		@apply font-semibold text-sm;
 	}
 	&__total {
 		@apply text-xs;
+	}
+	.delete {
+		@apply absolute -top-4 right-0 hidden hover:block text-sm;
+	}
+
+	&:hover {
+		.delete {
+			display: block;
+		}
 	}
 }

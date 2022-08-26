@@ -4,27 +4,13 @@ import { Section } from '../components/section';
 import { wrapper, AppThunkDispatch } from '../store';
 import { getAllCategories } from '../store/main/action';
 
-// import { useDispatch, useSelector } from 'react-redux';
-
 import { login } from '../store/auth/actions';
-// import { selectAuth } from '../store/auth/selectors';
 
 interface HomeProps {
   categories: [ICategory];
 }
 
 const Home = ({ categories }: HomeProps) => {
-  // temp
-  // const dispatch: AppThunkDispatch = useDispatch();
-  // const auth = useSelector(selectAuth);
-  // console.log(auth);
-  // dispatch(
-  //   login({
-  //     email: 'test2@mail.ru',
-  //     password: '123456',
-  //   })
-  // );
-
   const incomes: ICategory[] = [];
   const assets: ICategory[] = [];
   const expenses: ICategory[] = [];

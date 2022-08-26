@@ -23,7 +23,6 @@ export const login = createAsyncThunk(
     const url = `user/login`;
     try {
       const response = await axiosClient.post(url, user);
-      console.log('------RESPONSE', response);
       return response.data;
     } catch (err) {
       console.log('Something went wrong ->', err);
