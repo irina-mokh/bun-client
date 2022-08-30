@@ -1,6 +1,18 @@
 .footer {
-	@apply bg-slate-600 bg-opacity-40 shadow-lg;
-	&__wrapper {
-		@apply flex justify-around;
+	@apply bg-slate-600 bg-opacity-40 shadow-lg py-2;
+}
+
+.wrapper {
+	@apply flex justify-around;
+}
+
+.gh {
+	@apply flex justify-between w-28 text-slate-50;
+	
+	span {
+    @apply text-inherit;
 	}
+}
+.gh__icon {
+	filter: invert(100%) sepia(95%) saturate(15%) hue-rotate(236deg) brightness(104%) contrast(100%);
 }

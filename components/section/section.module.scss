@@ -14,12 +14,12 @@
 		@apply flex-wrap;
 	}
 	.list {
-		@apply flex my-1 items-center w-full;
+		@apply flex items-center w-full;
 	}
 }
 
 .heading {
-	@apply capitalize font-bold;
+	@apply uppercase text-sm text-slate-400 my-2;
 }
 
 

@@ -28,7 +28,7 @@ const Home = ({ categories }: HomeProps) => {
     }
   });
   return (
-    <main className="box grid grid-rows-[130px_130px_1fr]">
+    <main className="box grid grid-rows-[130px_130px_1fr] py-3">
       <Section data={incomes} type="income" />
       <Section data={assets} type="asset" />
       <Section data={expenses} type="expense" />
