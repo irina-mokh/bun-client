@@ -1,23 +1,19 @@
 import styles from './actionThumb.module.scss';
 
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 
 import { IAction } from '../../interfaces/action';
-import { ICategory } from '../../interfaces/category';
 
-import { selectMain } from '../../store/main/selectors';
 import { Action } from '../action';
 import { Modal } from '../modal';
+import { getCategories } from '../../utils';
 
 export const ActionThumb = (props: IAction) => {
   const { id, sum, from, to, createdAt } = props;
   const date = new Date(createdAt);
 
   //get categories names by ID's
-  const { categories } = useSelector(selectMain);
-  const catFrom = categories.find((cat: ICategory) => cat.id === from);
-  const catTo = categories.find((cat: ICategory) => cat.id === to);
+  const [catFrom, catTo] = getCategories(from, to);
 
   const [showModal, setShowModal] = useState(false);
 
@@ -34,7 +30,7 @@ export const ActionThumb = (props: IAction) => {
       <p className={styles.actionThumb__cat}>{`to: ${catTo.name}`}</p>
       {showModal ? (
         <Modal close={closeModal} title={`Action ${id}`}>
-          <Action item={props} catFrom={catFrom} catTo={catTo} />
+          <Action {...props} />
         </Modal>
       ) : null}
     </article>

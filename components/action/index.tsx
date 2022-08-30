@@ -3,21 +3,18 @@ import styles from './action.module.scss';
 import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
-import { IAction } from '../../interfaces/action';
+import { IAction, INewAction } from '../../interfaces/action';
 import { ICategory } from '../../interfaces/category';
 
 import { selectMain } from '../../store/main/selectors';
+import { getCategories } from '../../utils';
 
-type IActionProps = {
-  item: IAction,
-  catFrom: ICategory,
-  catTo: ICategory,
-};
-
-export const Action = ({ item, catFrom, catTo }: IActionProps) => {
+export const Action = (props: IAction | INewAction) => {
+  const { sum, from, to, createdAt } = props;
   const { categories } = useSelector(selectMain);
-  const action = item;
-  const { sum, createdAt } = action;
+  const date = createdAt || new Date();
+  //get categories names by ID's
+  const [catFrom, catTo] = getCategories(from, to);
 
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => console.log(data);
@@ -71,7 +68,7 @@ export const Action = ({ item, catFrom, catTo }: IActionProps) => {
             />
             <input
               type="date"
-              defaultValue={String(createdAt).substring(0, 10)}
+              defaultValue={String(date).substring(0, 10)}
               {...register('date', { required: true })}
               className="input w-5/12"
             />

@@ -1,15 +1,11 @@
-import { ICategory } from './category';
-
-export interface IAction {
-  id: number;
+export interface INewAction {
   sum: string;
   from: number;
   to: number;
+}
+
+export interface IAction extends INewAction {
+  id: number;
   updatedAt: Date;
   createdAt: Date;
-}
-export interface IActionProps {
-  action: IAction;
-  catFrom: ICategory;
-  catTo: ICategory;
 }
