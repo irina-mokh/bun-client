@@ -25,12 +25,8 @@ export const Bun = (props: ICategory) => {
     setShowModal(false);
   };
 
-  const handleDeleteCategory = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-    dispatch(deleteCategory(id));
-    router.push('/');
-  };
-  let border = '';
+  let border = 'transparent';
+
   switch (type) {
     case 'income':
       border = 'border-teal-600';
@@ -43,23 +39,30 @@ export const Bun = (props: ICategory) => {
       break;
   }
 
+  const handleDeleteCategory = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    dispatch(deleteCategory(id));
+    router.push('/');
+  };
+
   // drag and drop
   const ref = useRef() as MutableRefObject<HTMLDivElement>;
 
   // Drag task
-  const [{ }, drag] = useDrag(
+  const [{ opacity }, drag] = useDrag(
     () => ({
       type: 'bun',
       item: props,
       collect: (monitor: DragSourceMonitor) => ({
         isDragging: monitor.isDragging(),
+        opacity: monitor.isDragging() ? 0.3 : 1,
       }),
     }),
     [props]
   );
 
   // Drop task
-  const [{ }, drop] = useDrop(
+  const [{ canDrop, isOver }, drop] = useDrop(
     () => ({
       accept: 'bun',
       drop: async (drag: ICategory) => {
@@ -69,10 +72,8 @@ export const Bun = (props: ICategory) => {
         setNewAction ({
           from: drag.id,
           to: id,
-          sum: '0',
+          sum: '',
         });
-
-        console.log(newAction);
         setShowModal(true);
       },
       collect: (monitor: DropTargetMonitor) => ({
@@ -83,12 +84,22 @@ export const Bun = (props: ICategory) => {
     [props]
   );
 
+  const isActive = canDrop && isOver;
+  
+  let outline = 'outline-transparent';
+
+  if (isActive) {
+    outline = 'outline-lime-500';
+  } else if (canDrop) {
+    outline = 'outline-slate-500';
+  }
+
   drag(drop(ref));
 
   return (
     <>
       <Link href={`/category/${id}`}>
-        <div className={`${styles.category} ${border}`} ref={ref}>
+        <div className={`${styles.category} ${border} ${outline}`} ref={ref} style={{opacity}}>
           <a className={styles.category__name}>{name}</a>
           <p className={styles.category__total}>{total}</p>
           {/* temp */}
@@ -101,7 +112,7 @@ export const Bun = (props: ICategory) => {
       </Link>
       {showModal ? (
         <Modal close={closeModal} title={`New transaction`}>
-          <Action {...newAction} />
+          <Action data={newAction} close={closeModal}/>
         </Modal>
       ) : null}
     </>

@@ -1,5 +1,5 @@
 .category {
-	@apply relative rounded-full w-20 h-20 flex flex-col justify-center items-center mr-2 border-4 bg-slate-600 bg-opacity-50 shadow-md mb-2 hover:cursor-pointer hover:shadow-xl;
+	@apply relative rounded-full w-20 h-20 flex flex-col justify-center items-center mr-2 mb-2 border-4 bg-slate-600 bg-opacity-50 shadow-sm hover:cursor-pointer hover:shadow-md outline-2 outline-dashed outline-offset-1;
 	
 	&__name {
 		@apply font-semibold text-sm;

@@ -9,3 +9,8 @@ export interface IAction extends INewAction {
   updatedAt: Date;
   createdAt: Date;
 }
+
+export interface IActionProps {
+  data: IAction | INewAction;
+  close: () => void;
+}

@@ -46,10 +46,10 @@ export const getAllCategories = createAsyncThunk(
 
 export const createAction = createAsyncThunk(
   'main/createAction',
-  async function (category, { rejectWithValue }) {
+  async function (action, { rejectWithValue }) {
     const url = `action`;
     try {
-      const response = await axiosClient.post(url, category);
+      const response = await axiosClient.post(url, action);
       return response.data;
     } catch (err) {
       console.log('Something went wrong ->', err);
