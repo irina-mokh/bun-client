@@ -1,21 +1,24 @@
 @tailwind components;
 
 @layer components {
-	.actionThumb {
+	.container {
 		@apply relative flex justify-between border border-slate-600 p-2  bg-slate-800 mb-1 bg-opacity-40 hover:cursor-pointer;
+	}
+	// temp node for development
+	.id {
+		@apply absolute top-0 left-0;
+	}
 
-		// temp node for development
-		&__id {
-			@apply absolute top-0 left-0;
-		}
+	.date {
+		@apply font-semibold w-1/5;
+	}
 
-		&__date {
-			@apply font-semibold w-1/5;
-		}
+	.cat {
+		@apply w-1/5;
+	}
 
-		&__cat {
-			@apply w-1/5;
-		}
+	.delete {
+		@apply absolute top-0 right-0;
 	}
 
 }

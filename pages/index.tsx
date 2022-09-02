@@ -1,19 +1,36 @@
 import { ICategory } from '../interfaces/category';
+// import { useState } from 'react';
 
 import { Section } from '../components/section';
 import { wrapper, AppThunkDispatch } from '../store';
 import { getAllCategories } from '../store/main/action';
 
 import { login } from '../store/auth/actions';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectAuth } from '../store/auth/selectors';
+import { selectMain } from '../store/main/selectors';
 
-interface HomeProps {
-  categories: [ICategory];
-}
+const Home = () => {
+  const dispatch: AppThunkDispatch = useDispatch();
 
-const Home = ({ categories }: HomeProps) => {
+  const { user } = useSelector(selectAuth);
+  //temp login
+  useEffect(() => {
+    dispatch(login({ email: 'test2@mail.ru', password: '123456' }));
+  }, []);
+
+  const { categories } = useSelector(selectMain);
+
+  useEffect(() => {
+    const userId = user ? user.id : 0;
+    dispatch(getAllCategories(userId));
+  }, [dispatch]);
+
   const incomes: ICategory[] = [];
   const assets: ICategory[] = [];
   const expenses: ICategory[] = [];
+
   categories.forEach((item: ICategory) => {
     switch (item.type) {
       case 'income':
@@ -36,22 +53,22 @@ const Home = ({ categories }: HomeProps) => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
-  const dispatch: AppThunkDispatch = store.dispatch;
-  // temp login
-  await dispatch(
-    login({
-      email: 'test2@mail.ru',
-      password: '123456',
-    })
-  );
+// export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
+//   const dispatch: AppThunkDispatch = store.dispatch;
+//   // temp login
+//   await dispatch(
+//     login({
+//       email: 'test2@mail.ru',
+//       password: '123456',
+//     })
+//   );
 
-  const { user } = store.getState().auth;
-  const userId = user ? user.id : 0;
+//   const { user } = store.getState().auth;
+//   const userId = user ? user.id : 0;
 
-  await dispatch(getAllCategories(userId));
-  const { categories } = store.getState().main;
-  return { props: { categories } };
-});
+//   await dispatch(getAllCategories(userId));
+//   const { categories } = store.getState().main;
+//   return { props: { categories } };
+// });
 
 export default Home;

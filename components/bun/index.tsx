@@ -1,9 +1,9 @@
 import styles from './bun.module.scss';
 
 import { ICategory } from '../../interfaces/category';
+import { IActionForm } from '../../interfaces/action';
 
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { useState, useRef, MutableRefObject } from 'react';
 import { useDrag, useDrop, DragSourceMonitor, DropTargetMonitor } from 'react-dnd';
 import { useDispatch } from 'react-redux';
@@ -16,17 +16,20 @@ import { Modal } from '../modal';
 
 export const Bun = (props: ICategory) => {
   const { name, total, id, type } = props;
-  const [newAction, setNewAction] = useState();
-  const router = useRouter();
+  const [newAction, setNewAction] = useState<IActionForm>({
+    from: 1,
+    to: 1,
+    sum: '',
+  });
   const dispatch: AppThunkDispatch = useDispatch();
- // action creation modal
+
+  // action creation modal
   const [showModal, setShowModal] = useState(false);
   const closeModal = () => {
     setShowModal(false);
   };
-
+  //border by category type
   let border = 'transparent';
-
   switch (type) {
     case 'income':
       border = 'border-teal-600';
@@ -42,26 +45,26 @@ export const Bun = (props: ICategory) => {
   const handleDeleteCategory = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     dispatch(deleteCategory(id));
-    router.push('/');
+    //TODO: delete all actions from category
   };
 
   // drag and drop
-  const ref = useRef() as MutableRefObject<HTMLDivElement>;
+  const ref: MutableRefObject<HTMLDivElement | null> = useRef(null);
 
-  // Drag task
+  // Drag bun
   const [{ opacity }, drag] = useDrag(
     () => ({
       type: 'bun',
       item: props,
       collect: (monitor: DragSourceMonitor) => ({
         isDragging: monitor.isDragging(),
-        opacity: monitor.isDragging() ? 0.3 : 1,
+        opacity: monitor.isDragging() ? 'opacity-50' : 'opacity-100',
       }),
     }),
     [props]
   );
 
-  // Drop task
+  // Drop bun
   const [{ canDrop, isOver }, drop] = useDrop(
     () => ({
       accept: 'bun',
@@ -69,7 +72,7 @@ export const Bun = (props: ICategory) => {
         if (drag.type == 'expense' || type === 'income' || drag.id === id) {
           return;
         }
-        setNewAction ({
+        setNewAction({
           from: drag.id,
           to: id,
           sum: '',
@@ -84,10 +87,9 @@ export const Bun = (props: ICategory) => {
     [props]
   );
 
+  // outline for drop area
   const isActive = canDrop && isOver;
-  
   let outline = 'outline-transparent';
-
   if (isActive) {
     outline = 'outline-lime-500';
   } else if (canDrop) {
@@ -99,7 +101,7 @@ export const Bun = (props: ICategory) => {
   return (
     <>
       <Link href={`/category/${id}`}>
-        <div className={`${styles.category} ${border} ${outline}`} ref={ref} style={{opacity}}>
+        <div className={`${styles.category} ${border} ${outline} ${opacity}`} ref={ref}>
           <a className={styles.category__name}>{name}</a>
           <p className={styles.category__total}>{total}</p>
           {/* temp */}
@@ -112,7 +114,7 @@ export const Bun = (props: ICategory) => {
       </Link>
       {showModal ? (
         <Modal close={closeModal} title={`New transaction`}>
-          <Action data={newAction} close={closeModal}/>
+          <Action data={newAction} close={closeModal} />
         </Modal>
       ) : null}
     </>

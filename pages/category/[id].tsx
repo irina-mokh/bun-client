@@ -1,22 +1,33 @@
 import styles from './category.module.scss';
 
 import { useRouter } from 'next/router';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 
 import { wrapper, AppThunkDispatch } from '../../store';
 import { getActions } from '../../store/main/action';
 import { ActionThumb } from '../../components/actionThumb';
-import { CategoryProps, ICategory } from '../../interfaces/category';
+import { ICategory } from '../../interfaces/category';
 import { deleteCategory } from '../../store/main/action';
+import { selectMain } from '../../store/main/selectors';
+import { IAction } from '../../interfaces/action';
+import { useEffect } from 'react';
 
-export default function Category({ cat, acts }: CategoryProps) {
+export default function Category() {
   const router = useRouter();
   const { query } = router;
   const id = Number(query.id);
-  const dispatch: AppThunkDispatch = useDispatch();
 
-  const actions = acts.map((action) => {
+  const dispatch: AppThunkDispatch = useDispatch();
+  const { actions: acts, categories } = useSelector(selectMain);
+
+  const category = categories.filter((cat: ICategory) => cat.id == id);
+
+  useEffect(() => {
+    dispatch(getActions(id));
+  }, [dispatch]);
+
+  const actions = acts.map((action: IAction) => {
     return (
       <li key={action.id}>
         <ActionThumb {...action}></ActionThumb>
@@ -27,6 +38,7 @@ export default function Category({ cat, acts }: CategoryProps) {
   const handleDelete = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     dispatch(deleteCategory(id));
+    // move to main page
     router.push('/');
   };
 
@@ -35,7 +47,7 @@ export default function Category({ cat, acts }: CategoryProps) {
       <Link href="/">
         <a className={styles.back}>{`< Back`}</a>
       </Link>
-      <h2 className={styles.title}>{cat.name}</h2>
+      <h2 className={styles.title}>{category.name}</h2>
       <ul className={styles.list}>{actions}</ul>
       <button className="btn btn_red" onClick={handleDelete}>
         Delete category
@@ -44,16 +56,16 @@ export default function Category({ cat, acts }: CategoryProps) {
   );
 }
 
-export const getServerSideProps = wrapper.getServerSideProps((store) => async (ctx) => {
-  const id = Number(ctx.params?.id);
-  const dispatch: AppThunkDispatch = store.dispatch;
-  await dispatch(getActions(id));
-  const { actions, categories } = store.getState().main;
-  const category = categories.filter((cat: ICategory) => cat.id == id);
-  return {
-    props: {
-      cat: category.length ? category[0] : {},
-      acts: actions,
-    },
-  };
-});
+// export const getServerSideProps = wrapper.getServerSideProps((store) => async (ctx) => {
+//   const id = Number(ctx.params?.id);
+//   const dispatch: AppThunkDispatch = store.dispatch;
+//   await dispatch(getActions(id));
+//   const { actions, categories } = store.getState().main;
+//   const category = categories.filter((cat: ICategory) => cat.id == id);
+//   return {
+//     props: {
+//       cat: category.length ? category[0] : [],
+//       acts: actions,
+//     },
+//   };
+// });

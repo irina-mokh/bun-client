@@ -8,7 +8,7 @@
 		@apply text-xs;
 	}
 	.delete {
-		@apply absolute -top-4 right-0 hidden hover:block text-sm;
+		@apply absolute top-0 right-0 hidden hover:block text-sm;
 	}
 
 	&:hover {

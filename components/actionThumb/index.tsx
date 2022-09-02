@@ -1,19 +1,26 @@
 import styles from './actionThumb.module.scss';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { IAction } from '../../interfaces/action';
 
 import { Action } from '../action';
 import { Modal } from '../modal';
-import { getCategories } from '../../utils';
+import { deleteAction } from '../../store/main/action';
+import { AppThunkDispatch } from '../../store';
+import { updateTotals } from '../../store/main/reducer';
+import { getCategoriesById } from '../../utils';
+import { selectMain } from '../../store/main/selectors';
 
 export const ActionThumb = (props: IAction) => {
   const { id, sum, from, to, createdAt } = props;
   const date = new Date(createdAt);
 
-  //get categories names by ID's
-  const [catFrom, catTo] = getCategories(from, to);
+  const dispatch: AppThunkDispatch = useDispatch();
+  const { categories } = useSelector(selectMain);
+  //to get categories names by ID's
+  const [catFrom, catTo] = getCategoriesById(categories, from, to);
 
   const [showModal, setShowModal] = useState(false);
 
@@ -21,18 +28,27 @@ export const ActionThumb = (props: IAction) => {
     setShowModal(false);
   };
 
+  const handleDeleteAction = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    dispatch(deleteAction(id));
+    dispatch(updateTotals({ from, to, sum }));
+  };
+
   return (
-    <article className={styles.actionThumb} onClick={() => setShowModal(true)}>
-      <p className={styles.actionThumb__id}>{id}</p>
-      <p className={styles.actionThumb__date}>{date.toLocaleDateString()}</p>
-      <p className={styles.actionThumb__cat}>{`from: ${catFrom.name}`}</p>
+    <article className={styles.container} onClick={() => setShowModal(true)}>
+      <p className={styles.id}>{id}</p>
+      <p className={styles.date}>{date.toLocaleDateString()}</p>
+      <p className={styles.cat}>{`from: ${catFrom.name}`}</p>
       <p className="font-bold">{sum}</p>
-      <p className={styles.actionThumb__cat}>{`to: ${catTo.name}`}</p>
+      <p className={styles.cat}>{`to: ${catTo.name}`}</p>
       {showModal ? (
         <Modal close={closeModal} title={`Action ${id}`}>
-          <Action {...props} />
+          <Action data={props} />
         </Modal>
       ) : null}
+      <button onClick={handleDeleteAction} className={styles.delete}>
+        🗙
+      </button>
     </article>
   );
 };

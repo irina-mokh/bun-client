@@ -1,39 +1,48 @@
 import styles from './action.module.scss';
 
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
-import { IActionProps } from '../../interfaces/action';
+import { IActionProps, IAction, IActionForm } from '../../interfaces/action';
 import { ICategory } from '../../interfaces/category';
 import { AppThunkDispatch } from '../../store';
 
 import { selectMain } from '../../store/main/selectors';
 import { createAction } from '../../store/main/action';
-import { getCategories } from '../../utils';
-import { useEffect } from 'react';
-import Router from 'next/router';
+import { updateTotals } from '../../store/main/reducer';
+import { getCategoriesById } from '../../utils';
 
 export const Action = (props: IActionProps) => {
-  const { sum, from, to, createdAt } = props.data;
+  const { sum, from, to } = props.data;
   const { categories } = useSelector(selectMain);
   const dispatch: AppThunkDispatch = useDispatch();
-  const date = createdAt || new Date().toISOString();
-  //get categories names by ID's
-  const [catFrom, catTo] = getCategories(from, to);
+  let date = new Date().toISOString();
+  if ('createdAt' in props.data) {
+    date = String(props.data.createdAt);
+  }
 
-  const router = useRouter();
+  //get categories names by ID's
+  const [catFrom, catTo] = getCategoriesById(categories, from, to);
+
   const {
     register,
     handleSubmit,
     setFocus,
     formState: { isValid },
-  } = useForm({ mode: 'onChange' });
+  } = useForm<IAction>({ mode: 'onChange' });
 
-  const onSubmit = (data) => {
+  const onSubmit: SubmitHandler<IActionForm> = (data) => {
+    const { from, to, sum } = data;
     dispatch(createAction(data));
-    props.close();
-    router.push('/');
+    dispatch(
+      updateTotals({
+        from,
+        to,
+        sum,
+      })
+    );
+    if (props.close) props.close();
   };
   useEffect(() => {
     setFocus('sum');

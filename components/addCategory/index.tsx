@@ -16,7 +16,6 @@ interface AddCategoryProps {
 }
 export default function AddCategory(props: AddCategoryProps) {
   const dispatch: AppThunkDispatch = useDispatch();
-  const router = useRouter();
   const auth = useSelector(selectAuth);
   const userId = auth.user.id;
 
@@ -27,7 +26,6 @@ export default function AddCategory(props: AddCategoryProps) {
     const { name, type } = data;
     const total = Number(data.total) || 0;
     dispatch(createCategory({ name, type, total, userId }));
-    router.replace(router.asPath);
     props.close();
   };
 

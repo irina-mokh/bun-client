@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { IAction, IActionForm } from '../../interfaces/action';
 import { ICategoryNew } from '../../interfaces/category';
 import { axiosClient } from '../../utils/axios';
 
@@ -46,11 +47,39 @@ export const getAllCategories = createAsyncThunk(
 
 export const createAction = createAsyncThunk(
   'main/createAction',
-  async function (action, { rejectWithValue }) {
+  async function (action: IActionForm, { rejectWithValue }) {
     const url = `action`;
     try {
       const response = await axiosClient.post(url, action);
       return response.data;
+    } catch (err) {
+      console.log('Something went wrong ->', err);
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const deleteAction = createAsyncThunk(
+  'main/deleteAction',
+  async function (id: number, { rejectWithValue }) {
+    const url = `action`;
+    try {
+      await axiosClient.delete(url, { data: { id: id } });
+      return id;
+    } catch (err) {
+      console.log('Something went wrong ->', err);
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const editAction = createAsyncThunk(
+  'main/editAction',
+  async function (action: IAction, { rejectWithValue }) {
+    const url = `action`;
+    try {
+      await axiosClient.patch(url, action);
+      return action.id;
     } catch (err) {
       console.log('Something went wrong ->', err);
       return rejectWithValue(err);

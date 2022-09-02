@@ -1,8 +1,6 @@
-import { IAction } from './action';
-
 export interface ICategoryForm {
   type: string;
-  total?: number;
+  total: number;
   name: string;
 }
 export interface ICategoryNew extends ICategoryForm {
@@ -11,9 +9,4 @@ export interface ICategoryNew extends ICategoryForm {
 
 export interface ICategory extends ICategoryNew {
   id: number;
-}
-
-export interface CategoryProps {
-  cat: ICategory;
-  acts: IAction[];
 }
