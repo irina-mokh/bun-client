@@ -9,7 +9,7 @@ const initialState: IMainState = {
   actions: [],
 };
 
-export const mainSlice = createSlice({
+const mainSlice = createSlice({
   name: 'main',
   initialState,
   reducers: {

@@ -11,15 +11,17 @@ import { IState } from '../interfaces/store';
 import authReducer from './auth/reducer';
 import mainReducer from './main/reducer';
 
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
+
 const rootReducers = combineReducers({
   main: mainReducer,
   auth: authReducer,
 });
 
 const reducer: typeof rootReducers = (state: IState, action) => {
-  let nextState: IState = {
+  // console.log(state);
+  const nextState: IState = {
     ...state,
-    ...action.payload,
   };
   if (action.type === HYDRATE) {
     // preserve state
@@ -31,7 +33,8 @@ const reducer: typeof rootReducers = (state: IState, action) => {
       ...nextState.auth,
     };
 
-    main.categories = state.main.categories.length > 0 ? state.main.categories : action.payload.main.categories;
+    main.categories =
+      state.main.categories.length > 0 ? state.main.categories : action.payload.main.categories;
     main.actions = state.main.actions.length > 0 ? state.main.actions : action.payload.main.actions;
 
     auth.user = state.auth.user ? state.auth.user : action.payload.auth.user;
@@ -39,19 +42,19 @@ const reducer: typeof rootReducers = (state: IState, action) => {
 
     // console.log('auth:', auth);
     // console.log('main:', main);
-    nextState.auth = { ...auth };
-    nextState.main = { ...main };
+    nextState.auth = auth;
+    nextState.main = main;
 
     // console.log('___HYDRATE: state ', state);
     // console.log('___HYDRATE: payload ', action.payload);
     // console.log('___HYDRATE: nextState ', nextState);
 
     // clear storage
-    Object.keys(nextState).forEach((key) => {
-      storage.removeItem(`persist:${key}`);
-    });
+    // Object.keys(nextState).forEach((key) => {
+    //   storage.removeItem(`persist:${key}`);
+    // });
     // now destructor the returned action.payload object and get rid of _persist key
-    nextState = (({ _persist, ...rest }) => rest)(nextState);
+    // nextState = (({ _persist, ...rest }) => rest)(nextState);
   }
   return rootReducers(nextState, action);
 };
@@ -61,6 +64,7 @@ const persistConfig = {
   storage,
   whitelist: ['main', 'auth'],
   blacklist: ['_persist'],
+  stateReconciler: autoMergeLevel2,
 };
 const persistedReducer = persistReducer(persistConfig, reducer);
 

@@ -5,8 +5,8 @@ import { IUser } from './user';
 export type IMainState = {
   error: string | null,
   isLoading: boolean,
-  categories: ICategory[] | [],
-  actions: IAction[] | [],
+  categories: Array<ICategory>,
+  actions: Array<IAction>,
 };
 
 export type IAuthState = {
