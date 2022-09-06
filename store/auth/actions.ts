@@ -1,11 +1,11 @@
 // actions.tsx is for async actions
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IUser, ILoginUser } from '../../interfaces/user';
+import { IUser, INewUser } from '../../interfaces/user';
 import { axiosClient } from '../../utils/axios';
 
 export const createUser = createAsyncThunk(
   'auth/createUser',
-  async function (user: IUser, { rejectWithValue }) {
+  async function (user: INewUser, { rejectWithValue }) {
     const url = `user/registration`;
     try {
       const response = await axiosClient.post(url, user);
@@ -19,7 +19,7 @@ export const createUser = createAsyncThunk(
 
 export const login = createAsyncThunk(
   'auth/login',
-  async function (user: ILoginUser, { rejectWithValue }) {
+  async function (user: INewUser, { rejectWithValue }) {
     const url = `user/login`;
     try {
       const response = await axiosClient.post(url, user);

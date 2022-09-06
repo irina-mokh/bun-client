@@ -16,9 +16,9 @@ const Home = () => {
 
   const { user } = useSelector(selectAuth);
   //temp login
-  useEffect(() => {
-    dispatch(login({ email: 'test2@mail.ru', password: '123456' }));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(login({ email: 'test2@mail.ru', password: '123456' }));
+  // }, []);
 
   const { categories } = useSelector(selectMain);
 

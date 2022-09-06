@@ -6,7 +6,12 @@ export interface IUser {
   createdAt: Date;
 }
 
-export interface ILoginUser {
+export interface INewUser {
   email: string;
   password: string;
+}
+
+export interface IAuthForm extends INewUser {
+  tab: 'signin' | 'signup';
+  password2?: string;
 }

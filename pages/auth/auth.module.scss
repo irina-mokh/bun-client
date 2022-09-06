@@ -1,0 +1,30 @@
+.box {
+	@apply mx-auto max-w-sm px-4 py-3;
+}
+
+.tabs {
+	@apply flex justify-around mb-2;
+}
+
+.radio {
+	@apply hidden;
+}
+
+.tab {
+  @apply w-full text-center opacity-30 hover:cursor-pointer border border-transparent;
+}
+
+.radio:checked+.tab {
+  @apply text-teal-500 opacity-100 border-teal-500;
+}
+
+.heading {
+	@apply text-xl pb-2 font-bold text-yellow-400;
+}
+
+.hint {
+	@apply text-xs my-3;
+	.btn {
+		@apply text-teal-500 px-2;
+	}
+}
