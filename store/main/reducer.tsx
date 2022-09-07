@@ -1,6 +1,8 @@
 import { createSlice, current } from '@reduxjs/toolkit';
+import { IAction } from '../../interfaces/action';
 import { ICategory } from '../../interfaces/category';
 import { IMainState } from '../../interfaces/store';
+import { deleteAction } from './action';
 
 const initialState: IMainState = {
   error: null,
@@ -13,7 +15,7 @@ const mainSlice = createSlice({
   name: 'main',
   initialState,
   reducers: {
-    //update totals of categories after creating/deleting action
+    //update client totals of categories after creating/deleting action
     updateTotals: (state, action) => {
       const { categories } = current(state);
       //clone state to mutate
@@ -48,6 +50,7 @@ const mainSlice = createSlice({
     },
     'main/getAllCategories/fulfilled': (state, action) => {
       state.categories = action.payload;
+      state.actions = [];
       state.error = null;
       state.isLoading = false;
     },
@@ -80,6 +83,20 @@ const mainSlice = createSlice({
     'main/getAction/fulfilled': (state) => {
       state.error = null;
       state.isLoading = false;
+    },
+    'main/createAction/pending': (state) => {
+      state.isLoading = true;
+      state.error = null;
+    },
+    'main/createAction/fulfilled': (state, action) => {
+      state.error = null;
+      state.isLoading = false;
+      const cur = action.payload;
+      updateTotals({
+        from: cur.from,
+        to: cur.to,
+        sum: cur.sum,
+      });
     },
     'main/deleteAction/pending': (state) => {
       state.isLoading = true;

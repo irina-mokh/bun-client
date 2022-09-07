@@ -10,7 +10,6 @@ import { AppThunkDispatch } from '../../store';
 
 import { selectMain } from '../../store/main/selectors';
 import { createAction } from '../../store/main/action';
-import { updateTotals } from '../../store/main/reducer';
 import { getCategoriesById } from '../../utils';
 
 export const Action = (props: IActionProps) => {
@@ -33,15 +32,7 @@ export const Action = (props: IActionProps) => {
   } = useForm<IAction>({ mode: 'onChange' });
 
   const onSubmit: SubmitHandler<IActionForm> = (data) => {
-    const { from, to, sum } = data;
     dispatch(createAction(data));
-    dispatch(
-      updateTotals({
-        from,
-        to,
-        sum,
-      })
-    );
     if (props.close) props.close();
   };
   useEffect(() => {

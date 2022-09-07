@@ -9,7 +9,6 @@ import { Action } from '../action';
 import { Modal } from '../modal';
 import { deleteAction } from '../../store/main/action';
 import { AppThunkDispatch } from '../../store';
-import { updateTotals } from '../../store/main/reducer';
 import { getCategoriesById } from '../../utils';
 import { selectMain } from '../../store/main/selectors';
 
@@ -31,7 +30,6 @@ export const ActionThumb = (props: IAction) => {
   const handleDeleteAction = (e: React.MouseEvent) => {
     e.stopPropagation();
     dispatch(deleteAction(id));
-    dispatch(updateTotals({ from, to, sum }));
   };
 
   return (

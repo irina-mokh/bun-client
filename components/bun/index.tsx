@@ -45,7 +45,6 @@ export const Bun = (props: ICategory) => {
   const handleDeleteCategory = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     dispatch(deleteCategory(id));
-    //TODO: delete all actions from category
   };
 
   // drag and drop
