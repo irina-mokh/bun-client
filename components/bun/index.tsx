@@ -32,10 +32,10 @@ export const Bun = (props: ICategory) => {
   let border = 'transparent';
   switch (type) {
     case 'income':
-      border = 'border-teal-600';
+      border = 'border-slate-400';
       break;
     case 'asset':
-      border = 'border-cyan-500';
+      border = 'border-teal-500';
       break;
     case 'expense':
       border = 'border-yellow-300';
@@ -105,9 +105,9 @@ export const Bun = (props: ICategory) => {
           <a className={styles.category__name}>{name}</a>
           <p className={styles.category__total}>{total}</p>
           {/* temp */}
-          <p className="absolute -top-4 left-0 z-10 text-slate-500">{id}</p>
+          <p className="absolute -top-4 left-0 z-10 text-slate-500 text-xs">{id}</p>
 
-          <button onClick={handleDeleteCategory} className={styles.delete}>
+          <button onClick={handleDeleteCategory} className={`${styles.delete} close-btn`}>
             🗙
           </button>
         </div>

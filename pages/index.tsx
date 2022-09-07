@@ -4,6 +4,7 @@ import { ICategory } from '../interfaces/category';
 import { Section } from '../components/section';
 import { wrapper, AppThunkDispatch } from '../store';
 import { getAllCategories } from '../store/main/action';
+import { useRouter } from 'next/router';
 
 import { login } from '../store/auth/actions';
 import { useEffect } from 'react';
@@ -13,7 +14,7 @@ import { selectMain } from '../store/main/selectors';
 
 const Home = () => {
   const dispatch: AppThunkDispatch = useDispatch();
-
+  const router = useRouter();
   const { user } = useSelector(selectAuth);
   //temp login
   // useEffect(() => {
@@ -44,13 +45,17 @@ const Home = () => {
         break;
     }
   });
-  return (
-    <main className="box grid grid-rows-[130px_130px_1fr] py-3">
-      <Section data={incomes} type="income" />
-      <Section data={assets} type="asset" />
-      <Section data={expenses} type="expense" />
-    </main>
-  );
+  if (user) {
+    return (
+      <main className="box grid grid-rows-[130px_130px_1fr] py-3">
+        <Section data={incomes} type="income" />
+        <Section data={assets} type="asset" />
+        <Section data={expenses} type="expense" />
+      </main>
+    );
+  } else {
+    router.push('/auth');
+  }
 };
 
 // export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {

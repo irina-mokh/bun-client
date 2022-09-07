@@ -10,13 +10,11 @@ export const Header = () => {
   const dispatch: AppThunkDispatch = useDispatch();
 
   const { user } = useSelector(selectAuth);
-  const auth = !user ? (
+  const auth = (
     <Link href="/auth">
-      <p>Login</p>
-    </Link>
-  ) : (
-    <Link href="/auth">
-      <p onClick={() => dispatch(logOut())}>Logout</p>
+      <div className="hover:cursor-pointer hover:text-teal-500 transition-colors">
+        {!user ? <p>Login</p> : <p onClick={() => dispatch(logOut())}>Logout</p>}
+      </div>
     </Link>
   );
   return (

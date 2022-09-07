@@ -21,7 +21,7 @@ a {
 }
 
 .btn {
-  @apply bg-transparent font-semibold hover:enabled:text-slate-800 py-2 px-10 border  hover:enabled:border-transparent mx-auto my-1 block;
+  @apply bg-transparent font-semibold hover:enabled:text-slate-800 py-2 px-10 border  hover:enabled:border-transparent mx-auto my-1 block transition-colors;
   &:disabled {
     @apply border-slate-400 text-slate-400;
   }
@@ -39,4 +39,8 @@ a {
 
 .box {
   @apply container mx-auto px-3 max-w-3xl;
+}
+
+.close-btn {
+	@apply border-none opacity-60 hover:opacity-100 transition-opacity;
 }

@@ -26,7 +26,7 @@ export const Modal = ({ close, children, title }: ModalProps) => {
         <header className={styles.popup__header}>
           {title && <h2>{title}</h2>}
           <button 
-            className="border-none"
+            className="close-btn"
             onClick={closeModal}>
               🗙
           </button>
