@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
 
-import { wrapper, AppThunkDispatch } from '../../store';
+import { AppThunkDispatch } from '../../store';
 import { getActions } from '../../store/main/action';
 import { ActionThumb } from '../../components/actionThumb';
 import { ICategory } from '../../interfaces/category';
@@ -20,9 +20,7 @@ export default function Category() {
 
   const dispatch: AppThunkDispatch = useDispatch();
   const { actions: acts, categories } = useSelector(selectMain);
-
-  const category = categories.filter((cat: ICategory) => cat.id == id);
-
+  const category = categories.find((cat: ICategory) => cat.id == id);
   useEffect(() => {
     dispatch(getActions(id));
   }, [dispatch]);

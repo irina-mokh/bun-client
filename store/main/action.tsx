@@ -20,7 +20,7 @@ export const createCategory = createAsyncThunk(
 
 export const deleteCategory = createAsyncThunk(
   'main/deleteCategory',
-  async function (id: number, { rejectWithValue, dispatch, getState }) {
+  async function (id: number, { rejectWithValue, dispatch }) {
     const url = `category`;
 
     // delete all actions inside category

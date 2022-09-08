@@ -2,6 +2,7 @@ import styles from './actionThumb.module.scss';
 
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 
 import { IAction } from '../../interfaces/action';
 
@@ -16,11 +17,15 @@ export const ActionThumb = (props: IAction) => {
   const { id, sum, from, to, createdAt } = props;
   const date = new Date(createdAt);
 
+  const router = useRouter();
+  const { query } = router;
+  const catId = Number(query.id);
+
   const dispatch: AppThunkDispatch = useDispatch();
   const { categories } = useSelector(selectMain);
   //to get categories names by ID's
   const [catFrom, catTo] = getCategoriesById(categories, from, to);
-
+  const isToAsset = catId === to && catTo.type == 'asset';
   const [showModal, setShowModal] = useState(false);
 
   const closeModal = () => {
@@ -32,12 +37,13 @@ export const ActionThumb = (props: IAction) => {
     dispatch(deleteAction(id));
   };
 
+  const color = isToAsset ? 'text-green-400' : '';
   return (
-    <article className={styles.container} onClick={() => setShowModal(true)}>
+    <article className={`${styles.container} ${color}`} onClick={() => setShowModal(true)}>
       <p className={styles.id}>{id}</p>
       <p className={styles.date}>{date.toLocaleDateString()}</p>
       <p className={styles.cat}>{`from: ${catFrom.name}`}</p>
-      <p className="font-bold">{sum}</p>
+      <p className="font-bold">{+sum}</p>
       <p className={styles.cat}>{`to: ${catTo.name}`}</p>
       {showModal ? (
         <Modal close={closeModal} title={`Action ${id}`}>
