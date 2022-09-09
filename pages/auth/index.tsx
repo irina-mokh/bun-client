@@ -31,12 +31,19 @@ export default function Auth() {
             password: password,
           })
         );
+        router.push('/auth');
       }
     }
   };
 
-  const { register, handleSubmit, watch, setValue } = useForm<IAuthForm>({ mode: 'onChange' });
-
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors, isValid },
+  } = useForm<IAuthForm>({ mode: 'onChange' });
+  const password = watch('password');
   const tab = watch('tab');
   const hint =
     tab === 'signin' ? (
@@ -56,7 +63,6 @@ export default function Auth() {
     );
   return (
     <div className={styles.box}>
-      <h2 className={styles.heading}>{tab === 'signin' ? 'Login:' : 'Create new user:'}</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <fieldset className={styles.tabs}>
           <input
@@ -81,34 +87,61 @@ export default function Auth() {
             Sign up
           </label>
         </fieldset>
+        <h2 className={styles.heading}>{tab === 'signin' ? 'Login:' : 'Create new user:'}</h2>
         <fieldset>
           <label htmlFor="email">E-mail:</label>
           <input
             className="input"
             placeholder="email"
             id="email"
-            {...register('email', { required: true })}
+            {...register('email', {
+              required: true,
+              pattern: {
+                value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
+                message: 'not a valid e-mail',
+              },
+              minLength: {
+                value: 7,
+                message: 'min length 7',
+              },
+            })}
           ></input>
+          <span className="error">{errors.email?.message}</span>
           <label htmlFor="password">Password:</label>
           <input
             className="input"
+            type="password"
             placeholder="password"
             id="password"
-            {...register('password', { required: true })}
+            {...register('password', {
+              required: true,
+              minLength: {
+                value: 6,
+                message: 'min length 6',
+              },
+            })}
           ></input>
+          <span className="error">{errors.password?.message}</span>
           {tab === 'signup' && (
             <>
-              <label htmlFor="password2">Password:</label>
+              <label htmlFor="password2">Repeat password:</label>
               <input
                 className="input"
                 placeholder="password"
+                type="password"
                 id="password2"
-                {...register('password2', { required: true })}
+                {...register('password2', {
+                  required: true,
+                  validate: {
+                    positive: (pswrd) => pswrd === password || 'make sure your passwords match',
+                  },
+                })}
               ></input>
+              <span className="error">{errors.password2?.message}</span>
             </>
           )}
         </fieldset>
-        <button type="submit" className="btn btn_yellow">
+        <button type="submit" className="btn btn_yellow" disabled={!isValid}>
           {tab === 'signin' ? 'Sign In' : 'Sign Up'}
         </button>
         {hint}
