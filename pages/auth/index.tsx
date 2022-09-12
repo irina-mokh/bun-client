@@ -31,7 +31,6 @@ export default function Auth() {
             password: password,
           })
         );
-        router.push('/auth');
       }
     }
   };

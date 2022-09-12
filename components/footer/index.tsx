@@ -1,7 +1,6 @@
 import styles from './footer.module.scss';
 import GithubIcon from '../../assets/icons/gh.svg';
 import Image from 'next/image';
-import Link from 'next/link';
 
 export const Footer = () => {
   return (

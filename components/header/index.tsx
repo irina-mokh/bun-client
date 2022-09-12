@@ -5,30 +5,50 @@ import { selectAuth } from '../../store/auth/selectors';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppThunkDispatch } from '../../store';
 import { logOut } from '../../store/auth/reducer';
+import { useRouter } from 'next/router';
 
 export const Header = () => {
   const dispatch: AppThunkDispatch = useDispatch();
-
+  const router = useRouter();
   const { user } = useSelector(selectAuth);
   const auth = (
-    <Link href="/auth">
-      <div className="hover:cursor-pointer hover:text-teal-500 transition-colors">
-        {!user ? <p>Login</p> : <p onClick={() => dispatch(logOut())}>Logout</p>}
-      </div>
-    </Link>
+    <div className={styles.link}>
+      {!user ? (
+        <Link href="/auth">
+          <p>Login</p>
+        </Link>
+      ) : (
+        <p
+          onClick={() => {
+            dispatch(logOut());
+            router.push('/about');
+          }}
+        >
+          Logout
+        </p>
+      )}
+    </div>
   );
   return (
     <header className={styles.header}>
       <div className="box">
-        <nav className={styles.nav}>
+        <div className={styles.container}>
           <Link href="/">
             <div className={styles.logo}>
               <Image src="/logo.png" alt="logo" width="48" height="48"></Image>
               <span className={styles.logo__text}>Bun</span>
             </div>
           </Link>
-          {auth}
-        </nav>
+          <nav className={styles.nav}>
+            <div className={styles.link}>
+              <Link href="/">Main</Link>
+            </div>
+            <div className={styles.link}>
+              <Link href="/about">About</Link>
+            </div>
+            {auth}
+          </nav>
+        </div>
       </div>
     </header>
   );
