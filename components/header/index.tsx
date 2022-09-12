@@ -36,7 +36,7 @@ export const Header = () => {
           <Link href="/">
             <div className={styles.logo}>
               <Image src="/logo.png" alt="logo" width="48" height="48"></Image>
-              <span className={styles.logo__text}>Bun</span>
+              <span className={styles.logo__text}>Donut</span>
             </div>
           </Link>
           <nav className={styles.nav}>

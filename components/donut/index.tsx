@@ -1,4 +1,4 @@
-import styles from './bun.module.scss';
+import styles from './donut.module.scss';
 
 import { ICategory } from '../../interfaces/category';
 import { IActionForm } from '../../interfaces/action';
@@ -14,7 +14,7 @@ import { deleteCategory } from '../../store/main/action';
 import { Action } from '../action';
 import { Modal } from '../modal';
 
-export const Bun = (props: ICategory) => {
+export const Donut = (props: ICategory) => {
   const { name, total, id, type } = props;
   const [newAction, setNewAction] = useState<IActionForm>({
     from: 1,

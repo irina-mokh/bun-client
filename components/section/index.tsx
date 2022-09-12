@@ -1,7 +1,7 @@
 import styles from './section.module.scss';
 
 import { ICategory } from '../../interfaces/category';
-import { Bun } from '../bun';
+import { Donut } from '../donut';
 import { AddButton } from '../addButton';
 
 interface SectionProps {
@@ -11,10 +11,10 @@ interface SectionProps {
 export const Section = (props: SectionProps) => {
   const { data, type } = props;
 
-  const buns = data.length ? (
+  const donuts = data.length ? (
     data.map((item) => (
       <li key={item.id}>
-        <Bun {...item}></Bun>
+        <Donut {...item}></Donut>
       </li>
     ))
   ) : (
@@ -25,7 +25,7 @@ export const Section = (props: SectionProps) => {
     <section className={`${styles.section} ${styles.section}_${type}`}>
       <h2 className={styles.heading}>{props.type + 's'}</h2>
       <ul className={`${styles.list} ${type === 'expense' ? styles.wrap : null}`}>
-        {buns}
+        {donuts}
         <li key="add">
           <AddButton type={props.type}></AddButton>
         </li>
