@@ -62,7 +62,7 @@ export default function Auth() {
     );
   return (
     <div className={styles.box}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
         <fieldset className={styles.tabs}>
           <input
             type="radio"
@@ -93,6 +93,7 @@ export default function Auth() {
             className="input"
             placeholder="email"
             id="email"
+            autoComplete="off"
             {...register('email', {
               required: true,
               pattern: {
@@ -112,6 +113,7 @@ export default function Auth() {
             type="password"
             placeholder="password"
             id="password"
+            autoComplete="off"
             {...register('password', {
               required: true,
               minLength: {
@@ -129,6 +131,7 @@ export default function Auth() {
                 placeholder="password"
                 type="password"
                 id="password2"
+                autoComplete="off"
                 {...register('password2', {
                   required: true,
                   validate: {

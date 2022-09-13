@@ -34,7 +34,13 @@ a {
 }
 
 .input {
-	@apply border-2 border-slate-800 block p-2 mt-1 bg-slate-700  focus:outline focus:border-transparent outline-2 outline-teal-400;
+	@apply border-2 border-slate-500 focus:border-transparent block p-2 mt-1 bg-slate-700 focus:outline-none focus:ring-2  focus:ring-teal-400;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #f1f5f9;
+  -webkit-box-shadow: 0 0 0px 1000px #2f3d4f inset;
 }
 
 
