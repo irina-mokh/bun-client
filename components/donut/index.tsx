@@ -50,10 +50,10 @@ export const Donut = (props: ICategory) => {
   // drag and drop
   const ref: MutableRefObject<HTMLDivElement | null> = useRef(null);
 
-  // Drag bun
+  // Drag donut
   const [{ opacity }, drag] = useDrag(
     () => ({
-      type: 'bun',
+      type: 'donut',
       item: props,
       collect: (monitor: DragSourceMonitor) => ({
         isDragging: monitor.isDragging(),
@@ -63,10 +63,10 @@ export const Donut = (props: ICategory) => {
     [props]
   );
 
-  // Drop bun
+  // Drop donut
   const [{ canDrop, isOver }, drop] = useDrop(
     () => ({
-      accept: 'bun',
+      accept: 'donut',
       drop: async (drag: ICategory) => {
         if (drag.type == 'expense' || type === 'income' || drag.id === id) {
           return;

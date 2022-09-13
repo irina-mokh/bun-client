@@ -13,13 +13,13 @@ export default function About() {
         Donut app - is a budget manager. You can use it yourself or with family members to track your assets and expenses.
       </p>
       <p className={styles.text}>
-        To create a transaction drag a circle bun and drop it on target category.
+        To create a transaction drag a circle donut and drop it on target category.
       </p>
       <h3 className={styles.h3}>Advantages:</h3>
       <ul className={styles.ul}>
         <li className={styles.li}>
           <Image src={WalletIcon} className={styles.icon} alt="icon" width="48" height="48" />
-          <p className={styles.text}>The Bun is free!</p>
+          <p className={styles.text}>The Donut is free!</p>
         </li>
         <li className={styles.li}>
           <Image src={PhoneIcon} className={styles.icon} alt="icon" width="48" height="48" />
