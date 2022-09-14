@@ -18,19 +18,19 @@ export default function About() {
       <h3 className={styles.h3}>Advantages:</h3>
       <ul className={styles.ul}>
         <li className={styles.li}>
-          <Image src={WalletIcon} className={styles.icon} alt="icon" width="48" height="48" />
+          <Image src={WalletIcon} className={styles.icon} alt="icon" width="36" height="36" />
           <p className={styles.text}>The Donut is free!</p>
         </li>
         <li className={styles.li}>
-          <Image src={PhoneIcon} className={styles.icon} alt="icon" width="48" height="48" />
+          <Image src={PhoneIcon} className={styles.icon} alt="icon" width="36" height="36" />
           <p>You can use app on any device.</p>
         </li>
         <li className={styles.li}>
-          <Image src={FlashIcon} className={styles.icon} alt="icon" width="48" height="48" />
+          <Image src={FlashIcon} className={styles.icon} alt="icon" width="36" height="36" />
           <p className={styles.text}>Easy and quick usage via drag'n'drop</p>
         </li>
         <li className={styles.li}>
-          <Image src={ChartIcon} className={styles.icon} alt="icon" width="48" height="48" />
+          <Image src={ChartIcon} className={styles.icon} alt="icon" width="36" height="36" />
           <p className={styles.text}>Statistic for analyzing your expenses.</p>
         </li>
       </ul>

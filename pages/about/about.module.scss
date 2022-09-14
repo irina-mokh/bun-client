@@ -12,15 +12,15 @@
 }
 
 .heading {
-	@apply text-3xl font-bold  text-teal-500;
+	@apply text-3xl ;
 }
 
 .text {
-  @apply my-3;
+  @apply my-3 text-slate-300;
 }
 
 .h3 {
-	@apply font-bold mb-5 text-2xl;
+	@apply mb-5 text-2xl;
 }
 
 .ul {

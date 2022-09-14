@@ -12,6 +12,8 @@ interface SectionProps {
 export const Section = (props: SectionProps) => {
   const { data, type } = props;
   let total = 0;
+  // const dates = new Map();
+
   const donuts = data.length ? (
     data.map((item) => {
       total += item.total;

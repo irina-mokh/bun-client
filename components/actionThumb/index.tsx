@@ -10,13 +10,11 @@ import { Action } from '../action';
 import { Modal } from '../modal';
 import { deleteAction } from '../../store/main/action';
 import { AppThunkDispatch } from '../../store';
-import { getCategoriesById } from '../../utils';
+import { getCategoriesById, splitByDigits } from '../../utils';
 import { selectMain } from '../../store/main/selectors';
 
 export const ActionThumb = (props: IAction) => {
   const { id, sum, from, to, createdAt } = props;
-  const date = new Date(createdAt);
-
   const router = useRouter();
   const { query } = router;
   const catId = Number(query.id);
@@ -25,7 +23,11 @@ export const ActionThumb = (props: IAction) => {
   const { categories } = useSelector(selectMain);
   //to get categories names by ID's
   const [catFrom, catTo] = getCategoriesById(categories, from, to);
-  const isToAsset = catId === to && catTo.type == 'asset';
+  const cat1 = catId === to ? catTo : catFrom;
+  const cat2 = cat1 === catTo ? catFrom : catTo;
+
+  const isToCurCat = catTo.id == catId;
+  const isAsset = cat1.type == 'asset';
   const [showModal, setShowModal] = useState(false);
 
   const closeModal = () => {
@@ -37,14 +39,16 @@ export const ActionThumb = (props: IAction) => {
     dispatch(deleteAction(id));
   };
 
-  const color = isToAsset ? 'text-green-400' : '';
+  const color = isAsset && isToCurCat ? 'text-green-400' : '';
+  const total = splitByDigits(Number(sum));
+  const sumWithSign = isAsset ? (isToCurCat ? total : `-${total}`) : total;
+
   return (
     <article className={`${styles.container} ${color}`} onClick={() => setShowModal(true)}>
       <p className={styles.id}>{id}</p>
-      <p className={styles.date}>{date.toLocaleDateString()}</p>
-      <p className={styles.cat}>{`from: ${catFrom.name}`}</p>
-      <p className="font-bold">{+sum}</p>
-      <p className={styles.cat}>{`to: ${catTo.name}`}</p>
+      <p className={styles.date}>{new Date(createdAt).toLocaleDateString()}</p>
+      <p className={styles.cat}>{cat2.name}</p>
+      <p className="font-bold">{sumWithSign}</p>
       {showModal ? (
         <Modal close={closeModal} title={`Action ${id}`}>
           <Action data={props} />

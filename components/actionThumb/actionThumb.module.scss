@@ -2,15 +2,20 @@
 
 @layer components {
 	.container {
-		@apply relative flex justify-between border border-slate-600 p-2  bg-slate-800 mb-1 bg-opacity-40 hover:cursor-pointer;
+		@apply relative grid grid-cols-2 border border-slate-600 px-2 py-1  bg-slate-800 mb-1 bg-opacity-10 hover:cursor-pointer;
+		&:hover {
+			.delete {
+				@apply visible;
+			}
+		}
 	}
 	// temp node for development
 	.id {
-		@apply absolute top-0 left-0;
+		@apply absolute text-sm top-0 right-0 text-slate-500;
 	}
 
 	.date {
-		@apply font-semibold w-1/5;
+		@apply col-span-2 text-sm w-1/5;
 	}
 
 	.cat {
@@ -18,7 +23,7 @@
 	}
 
 	.delete {
-		@apply absolute top-0 right-0;
+		@apply absolute top-3 right-0 invisible;
 	}
 
 }
