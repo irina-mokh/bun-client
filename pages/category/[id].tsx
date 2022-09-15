@@ -32,7 +32,7 @@ export default function Category() {
   });
 
   // create a  rendered element
-  const actionsByDate = Array.from(dates).map((date: string) => {
+  const actionsByDate = Array.from(dates).map((date) => {
     const filteredActs = allActs.filter((act: IAction) => act.date === date);
     const renderedActs = filteredActs.map((action: IAction) => (
       <li key={action.id}>
@@ -41,7 +41,7 @@ export default function Category() {
     ));
     return (
       <li>
-        <p className={styles.date}>{new Date(date).toLocaleDateString()}</p>
+        <p className={styles.date}>{new Date(String(date)).toLocaleDateString()}</p>
         <ul className={styles.list}>{renderedActs}</ul>
       </li>
     );
