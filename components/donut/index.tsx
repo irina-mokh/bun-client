@@ -21,6 +21,7 @@ export const Donut = (props: ICategory) => {
     from: 1,
     to: 1,
     sum: '',
+    date: new Date().toISOString().split('T')[0],
   });
   const dispatch: AppThunkDispatch = useDispatch();
 
@@ -72,11 +73,11 @@ export const Donut = (props: ICategory) => {
         if (drag.type == 'expense' || type === 'income' || drag.id === id) {
           return;
         }
-        setNewAction({
+        setNewAction((state) => ({
+          ...state,
           from: drag.id,
           to: id,
-          sum: '',
-        });
+        }));
         setShowModal(true);
       },
       collect: (monitor: DropTargetMonitor) => ({

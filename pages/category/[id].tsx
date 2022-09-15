@@ -3,6 +3,7 @@ import styles from './category.module.scss';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 import { AppThunkDispatch } from '../../store';
 import { getActions } from '../../store/main/action';
@@ -11,7 +12,6 @@ import { ICategory } from '../../interfaces/category';
 import { deleteCategory } from '../../store/main/action';
 import { selectMain } from '../../store/main/selectors';
 import { IAction } from '../../interfaces/action';
-import { useEffect } from 'react';
 
 export default function Category() {
   const router = useRouter();
@@ -19,16 +19,30 @@ export default function Category() {
   const id = Number(query.id);
 
   const dispatch: AppThunkDispatch = useDispatch();
-  const { actions: acts, categories } = useSelector(selectMain);
+  const { actions: allActs, categories } = useSelector(selectMain);
   const category = categories.find((cat: ICategory) => cat.id == id);
   useEffect(() => {
     dispatch(getActions(id));
   }, [dispatch]);
 
-  const actions = acts.map((action: IAction) => {
-    return (
+  //  create a set of dates
+  const dates = new Set();
+  allActs.forEach((act: IAction) => {
+    dates.add(act.date);
+  });
+
+  // create a  rendered element
+  const actionsByDate = Array.from(dates).map((date: string) => {
+    const filteredActs = allActs.filter((act: IAction) => act.date === date);
+    const renderedActs = filteredActs.map((action: IAction) => (
       <li key={action.id}>
         <ActionThumb {...action}></ActionThumb>
+      </li>
+    ));
+    return (
+      <li>
+        <p className={styles.date}>{new Date(date).toLocaleDateString()}</p>
+        <ul className={styles.list}>{renderedActs}</ul>
       </li>
     );
   });
@@ -46,7 +60,7 @@ export default function Category() {
         <a className={styles.back}>{`< Back`}</a>
       </Link>
       <h2 className={styles.title}>{category.name}</h2>
-      <ul className={styles.list}>{actions}</ul>
+      <ul className={styles.content}>{actionsByDate}</ul>
       <button className="btn btn_red" onClick={handleDelete}>
         Delete category
       </button>

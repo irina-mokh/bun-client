@@ -1,7 +1,6 @@
 import styles from './addCategory.module.scss';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 

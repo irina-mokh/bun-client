@@ -2,7 +2,7 @@
 
 @layer components {
 	.container {
-		@apply relative grid grid-cols-2 border border-slate-600 px-2 py-1  bg-slate-800 mb-1 bg-opacity-10 hover:cursor-pointer;
+		@apply relative grid grid-cols-2 px-5 py-1 mb-1 hover:cursor-pointer border-b border-slate-600;
 		&:hover {
 			.delete {
 				@apply visible;
@@ -11,19 +11,15 @@
 	}
 	// temp node for development
 	.id {
-		@apply absolute text-sm top-0 right-0 text-slate-500;
+		@apply absolute text-xs top-0 right-0 text-slate-500;
 	}
 
-	.date {
-		@apply col-span-2 text-sm w-1/5;
-	}
-
-	.cat {
-		@apply w-1/5;
+	.sum {
+		@apply ml-auto;
 	}
 
 	.delete {
-		@apply absolute top-3 right-0 invisible;
+		@apply absolute inset-y-0 right-0 invisible;
 	}
 
 }

@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 type ModalProps = {
-  close: () => void;
-  title: string;
-  children: React.ReactNode;
+  close: () => void,
+  title: string,
+  children: React.ReactNode,
 };
 
 export const Modal = ({ close, children, title }: ModalProps) => {
@@ -20,21 +20,19 @@ export const Modal = ({ close, children, title }: ModalProps) => {
     close();
   };
 
-  const modalContent = 
+  const modalContent = (
     <div className={styles.overlay} onClick={closeModal}>
-      <div className={styles.popup} onClick={e => e.stopPropagation()}>
+      <div className={styles.popup} onClick={(e) => e.stopPropagation()}>
         <header className={styles.popup__header}>
           {title && <h2>{title}</h2>}
-          <button 
-            className="close-btn"
-            onClick={closeModal}>
-              🗙
+          <button className="close-btn" onClick={closeModal}>
+            🗙
           </button>
         </header>
         <div className={styles.popup__body}>{children}</div>
       </div>
-    </div>;
-  
-  return (isBrowser) ? ReactDOM.createPortal(modalContent, document.getElementById('modal-root')!)
-  : null;
+    </div>
+  );
+  const root = document.getElementById('modal-root');
+  return isBrowser && root ? ReactDOM.createPortal(modalContent, root) : null;
 };

@@ -2,11 +2,10 @@ import { ICategory } from '../interfaces/category';
 // import { useState } from 'react';
 
 import { Section } from '../components/section';
-import { wrapper, AppThunkDispatch } from '../store';
+import { AppThunkDispatch } from '../store';
 import { getAllCategories } from '../store/main/action';
 import { useRouter } from 'next/router';
 
-import { login } from '../store/auth/actions';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAuth } from '../store/auth/selectors';

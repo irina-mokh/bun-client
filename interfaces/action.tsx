@@ -2,7 +2,7 @@ export interface IActionForm {
   sum: string;
   from: number;
   to: number;
-  date?: Date;
+  date: string;
 }
 export interface IAction extends IActionForm {
   id: number;

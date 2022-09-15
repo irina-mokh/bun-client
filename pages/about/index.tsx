@@ -10,7 +10,8 @@ export default function About() {
     <div className={`${styles.box} box`}>
       <h2 className={styles.heading}>Donut app</h2>
       <p className={styles.text}>
-        Donut app - is a budget manager. You can use it yourself or with family members to track your assets and expenses.
+        Donut app - is a budget manager. You can use it yourself or with family members to track
+        your assets and expenses.
       </p>
       <p className={styles.text}>
         To create a transaction drag a circle donut and drop it on target category.

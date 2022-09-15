@@ -13,13 +13,10 @@ import { createAction } from '../../store/main/action';
 import { getCategoriesById } from '../../utils';
 
 export const Action = (props: IActionProps) => {
-  const { sum, from, to } = props.data;
+  const { sum, from, to, date } = props.data;
+
   const { categories } = useSelector(selectMain);
   const dispatch: AppThunkDispatch = useDispatch();
-  let date = new Date().toISOString();
-  if ('createdAt' in props.data) {
-    date = String(props.data.createdAt);
-  }
 
   //get categories names by ID's
   const [catFrom, catTo] = getCategoriesById(categories, from, to);
@@ -89,7 +86,7 @@ export const Action = (props: IActionProps) => {
             />
             <input
               type="date"
-              defaultValue={String(date).substring(0, 10)}
+              defaultValue={date}
               {...register('date', { required: true, min: 1 })}
               className="input w-5/12"
             />

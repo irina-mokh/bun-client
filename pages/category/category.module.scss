@@ -2,8 +2,12 @@
 	@apply container px-4 mx-auto;
 }
 
+.date {
+	@apply text-slate-300 text-sm;
+}
+
 .title {
-	@apply  font-bold text-2xl capitalize;
+	@apply  font-bold text-2xl capitalize mb-2;
 }
 
 .back {
@@ -12,4 +16,8 @@
 
 .list {
 	@apply my-3 flex-grow;
+}
+
+.content {
+	@apply flex-grow;
 }
