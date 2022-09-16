@@ -16,7 +16,7 @@ interface AddCategoryProps {
 export default function AddCategory(props: AddCategoryProps) {
   const dispatch: AppThunkDispatch = useDispatch();
   const auth = useSelector(selectAuth);
-  const userId = auth.user.id;
+  const userId = auth.user ? auth.user.id : 0;
 
   const [type, setType] = useState(props.type);
 
