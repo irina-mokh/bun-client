@@ -1,24 +1,23 @@
-import { configureStore, ThunkAction, Action, ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
-import { combineReducers } from 'redux';
+import { configureStore, ThunkAction, Action, ThunkDispatch, AnyAction, PayloadAction } from '@reduxjs/toolkit';
+import { combineReducers, Reducer } from 'redux';
 
 import thunk from 'redux-thunk';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
-import { persistStore, persistReducer } from 'redux-persist';
+import { persistStore, persistReducer, PersistConfig, Persistor } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import { IState } from '../interfaces/store';
 
 import authReducer from './auth/reducer';
 import mainReducer from './main/reducer';
-
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
-const rootReducers = combineReducers({
+const rootReducers = combineReducers<IState>({
   main: mainReducer,
   auth: authReducer,
 });
 
-const reducer: typeof rootReducers = (state: IState, action) => {
+const reducer = (state: IState, action: AnyAction) => {
   // console.log(state);
   const nextState: IState = {
     ...state,
@@ -59,7 +58,7 @@ const reducer: typeof rootReducers = (state: IState, action) => {
   return rootReducers(nextState, action);
 };
 
-const persistConfig = {
+const persistConfig: PersistConfig<IState> = {
   key: 'root',
   storage,
   whitelist: ['main', 'auth'],
@@ -73,12 +72,13 @@ export const store = configureStore({
   middleware: [thunk],
 });
 
-export const persistor = persistStore(store);
+export const persistor: Persistor = persistStore(store);
 
 const makeStore = () => store;
 
 export type AppDispatch = typeof store.dispatch;
-export type RootState = typeof store.getState;
+export type RootReducer = ReturnType<typeof rootReducers>;
+export type RootState = ReturnType<typeof store.getState>;
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   RootState,

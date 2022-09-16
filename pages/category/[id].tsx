@@ -40,7 +40,7 @@ export default function Category() {
       </li>
     ));
     return (
-      <li>
+      <li key={String(date)}>
         <p className={styles.date}>{new Date(String(date)).toLocaleDateString()}</p>
         <ul className={styles.list}>{renderedActs}</ul>
       </li>
@@ -59,7 +59,7 @@ export default function Category() {
       <Link href="/">
         <a className={styles.back}>{`< Back`}</a>
       </Link>
-      <h2 className={styles.title}>{category.name}</h2>
+      <h2 className={styles.title}>{category?.name}</h2>
       <ul className={styles.content}>{actionsByDate}</ul>
       <button className="btn btn_red" onClick={handleDelete}>
         Delete category
