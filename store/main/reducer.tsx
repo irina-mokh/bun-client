@@ -1,8 +1,6 @@
 import { createSlice, current } from '@reduxjs/toolkit';
-import { IAction } from '../../interfaces/action';
 import { ICategory } from '../../interfaces/category';
 import { IMainState } from '../../interfaces/store';
-import { deleteAction } from './action';
 
 const initialState: IMainState = {
   error: null,

@@ -1,29 +1,29 @@
-import { configureStore, ThunkAction, Action, ThunkDispatch, AnyAction, PayloadAction } from '@reduxjs/toolkit';
-import { combineReducers, Reducer } from 'redux';
+import { configureStore, ThunkAction, Action, ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
+import { combineReducers, Reducer, Store } from 'redux';
 
 import thunk from 'redux-thunk';
 import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 import { persistStore, persistReducer, PersistConfig, Persistor } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
 import { IState } from '../interfaces/store';
 
 import authReducer from './auth/reducer';
 import mainReducer from './main/reducer';
-import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
-const rootReducers = combineReducers<IState>({
+const rootReducers: Reducer<IState> = combineReducers({
   main: mainReducer,
   auth: authReducer,
 });
 
-const reducer = (state: IState, action: AnyAction) => {
+const reducer = (state: IState, action: AnyAction): IState => {
   // console.log(state);
   const nextState: IState = {
     ...state,
   };
   if (action.type === HYDRATE) {
-    // preserve state
+    // unmute and preserve state
     const main = {
       ...nextState.main,
     };
@@ -87,4 +87,4 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 >;
 export type AppThunkDispatch = ThunkDispatch<IState, void, AnyAction>;
 
-export const wrapper = createWrapper(makeStore);
+export const wrapper = createWrapper<Store<IState>>(makeStore);
