@@ -59,7 +59,7 @@ export const Donut = (props: ICategory) => {
       item: props,
       collect: (monitor: DragSourceMonitor) => ({
         isDragging: monitor.isDragging(),
-        opacity: monitor.isDragging() ? 'opacity-50' : 'opacity-100',
+        opacity: monitor.isDragging() ? 'opacity-0' : 'opacity-100',
       }),
     }),
     [props]
