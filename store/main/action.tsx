@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IAction, IActionForm } from '../../interfaces/action';
+import { IAction } from '../../interfaces/action';
 import { ICategoryNew } from '../../interfaces/category';
 import { axiosClient } from '../../utils/axios';
 import { updateTotals } from './reducer';
@@ -26,7 +26,9 @@ export const deleteCategory = createAsyncThunk(
     // delete all actions inside category
     const actions: IAction[] = await (await dispatch(getActions(id))).payload;
     actions.forEach((action) => {
-      dispatch(deleteAction(action.id));
+      if (action.id) {
+        dispatch(deleteAction(action.id));
+      }
     });
 
     try {
@@ -54,9 +56,8 @@ export const getAllCategories = createAsyncThunk(
 
 export const createAction = createAsyncThunk(
   'main/createAction',
-  async function (action: IActionForm, { rejectWithValue, dispatch }) {
+  async function (action: IAction, { rejectWithValue, dispatch }) {
     const url = `action`;
-
     // update totals of connected categories
     dispatch(
       updateTotals({
@@ -102,12 +103,19 @@ export const deleteAction = createAsyncThunk(
 
 export const editAction = createAsyncThunk(
   'main/editAction',
-  async function (action: IAction, { rejectWithValue }) {
+  async function (action: IAction, { rejectWithValue, dispatch }) {
     const url = `action`;
-    // TODO: update totals
+    // update totals of connected categories
+    dispatch(
+      updateTotals({
+        from: action.from,
+        to: action.to,
+        sum: action.sum,
+      })
+    );
     try {
-      await axiosClient.patch(url, action);
-      return action.id;
+      const response = await axiosClient.put(url, action);
+      return response.data;
     } catch (err) {
       console.log('Something went wrong ->', err);
       return rejectWithValue(err);

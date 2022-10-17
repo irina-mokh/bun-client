@@ -36,7 +36,7 @@ export const ActionThumb = (props: IAction) => {
 
   const handleDeleteAction = (e: React.MouseEvent) => {
     e.stopPropagation();
-    dispatch(deleteAction(id));
+    if (id) dispatch(deleteAction(id));
   };
 
   const color = isAsset && isToCurCat ? 'text-green-400' : '';
@@ -50,7 +50,7 @@ export const ActionThumb = (props: IAction) => {
       <p className={styles.sum}>{sumWithSign}</p>
       {showModal ? (
         <Modal close={closeModal} title={`Action ${id}`}>
-          <Action data={props} />
+          <Action data={props} onSave="edit" close={closeModal} />
         </Modal>
       ) : null}
       <button onClick={handleDeleteAction} className={styles.delete}>

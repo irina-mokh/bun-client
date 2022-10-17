@@ -1,7 +1,7 @@
 import styles from './donut.module.scss';
 
 import { ICategory } from '../../interfaces/category';
-import { IActionForm } from '../../interfaces/action';
+import { IAction } from '../../interfaces/action';
 
 import Link from 'next/link';
 import { useState, useRef, MutableRefObject } from 'react';
@@ -17,7 +17,7 @@ import { splitByDigits } from '../../utils';
 
 export const Donut = (props: ICategory) => {
   const { name, total, id, type } = props;
-  const [newAction, setNewAction] = useState<IActionForm>({
+  const [newAction, setNewAction] = useState<IAction>({
     from: 1,
     to: 1,
     sum: '',
@@ -115,7 +115,7 @@ export const Donut = (props: ICategory) => {
       </Link>
       {showModal ? (
         <Modal close={closeModal} title={`New transaction`}>
-          <Action data={newAction} close={closeModal} />
+          <Action data={newAction} close={closeModal} onSave="create" />
         </Modal>
       ) : null}
     </>

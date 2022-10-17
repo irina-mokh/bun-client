@@ -4,12 +4,12 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
-import { IActionProps, IAction, IActionForm } from '../../interfaces/action';
+import { IActionProps, IAction } from '../../interfaces/action';
 import { ICategory } from '../../interfaces/category';
 import { AppThunkDispatch } from '../../store';
 
 import { selectMain } from '../../store/main/selectors';
-import { createAction } from '../../store/main/action';
+import { createAction, editAction } from '../../store/main/action';
 import { getCategoriesById } from '../../utils';
 
 export const Action = (props: IActionProps) => {
@@ -28,9 +28,13 @@ export const Action = (props: IActionProps) => {
     formState: { isValid },
   } = useForm<IAction>({ mode: 'onChange' });
 
-  const onSubmit: SubmitHandler<IActionForm> = (data) => {
-    dispatch(createAction(data));
-    if (props.close) props.close();
+  const onSubmit: SubmitHandler<IAction> = (data) => {
+    if (props.onSave === 'create') {
+      dispatch(createAction(data));
+    } else if (props.onSave === 'edit') {
+      dispatch(editAction({ ...props.data, ...data }));
+    }
+    props.close();
   };
   useEffect(() => {
     setFocus('sum');
