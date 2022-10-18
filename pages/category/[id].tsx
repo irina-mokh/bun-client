@@ -26,26 +26,31 @@ export default function Category() {
   }, [dispatch]);
 
   //  create a set of dates
-  const dates = new Set();
+  const dates = new Set<string>();
   allActs.forEach((act: IAction) => {
     dates.add(act.date);
   });
-
+  function dateToNum(d: string) {
+    const s = d.split('-');
+    return Number(s[0] + s[1] + s[2]);
+  }
   // create a  rendered element
-  const actionsByDate = Array.from(dates).map((date) => {
-    const filteredActs = allActs.filter((act: IAction) => act.date === date);
-    const renderedActs = filteredActs.map((action: IAction) => (
-      <li key={action.id}>
-        <ActionThumb {...action}></ActionThumb>
-      </li>
-    ));
-    return (
-      <li key={String(date)}>
-        <p className={styles.date}>{new Date(String(date)).toLocaleDateString()}</p>
-        <ul className={styles.list}>{renderedActs}</ul>
-      </li>
-    );
-  });
+  const actionsByDate = Array.from(dates)
+    .sort((a, b) => dateToNum(b) - dateToNum(a))
+    .map((date) => {
+      const filteredActs = allActs.filter((act: IAction) => act.date === date);
+      const renderedActs = filteredActs.map((action: IAction) => (
+        <li key={action.id}>
+          <ActionThumb {...action}></ActionThumb>
+        </li>
+      ));
+      return (
+        <li key={String(date)}>
+          <p className={styles.date}>{new Date(String(date)).toLocaleDateString()}</p>
+          <ul className={styles.list}>{renderedActs}</ul>
+        </li>
+      );
+    });
 
   const handleDelete = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
