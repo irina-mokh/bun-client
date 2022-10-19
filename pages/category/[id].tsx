@@ -23,7 +23,7 @@ export default function Category() {
   const category = categories.find((cat: ICategory) => cat.id == id);
   useEffect(() => {
     dispatch(getActions(id));
-  }, [dispatch]);
+  }, [dispatch, allActs]);
 
   //  create a set of dates
   const dates = new Set<string>();
