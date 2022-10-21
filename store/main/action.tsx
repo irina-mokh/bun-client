@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IAction } from '../../interfaces/action';
-import { ICategoryNew } from '../../interfaces/category';
+import { ICategory, ICategoryNew } from '../../interfaces/category';
 import { axiosClient } from '../../utils/axios';
 import { updateTotals } from './reducer';
 
@@ -10,6 +10,20 @@ export const createCategory = createAsyncThunk(
     const url = `category`;
     try {
       const response = await axiosClient.post(url, category);
+      return response.data;
+    } catch (err) {
+      console.log('Something went wrong ->', err);
+      return rejectWithValue(err);
+    }
+  }
+);
+
+export const editCategory = createAsyncThunk(
+  'main/editCategoryName',
+  async function (cat: ICategory, { rejectWithValue }) {
+    const url = `category`;
+    try {
+      const response = await axiosClient.put(url, cat);
       return response.data;
     } catch (err) {
       console.log('Something went wrong ->', err);
