@@ -1,6 +1,6 @@
 .form {
 	.fieldset {
-		@apply flex justify-between items-end;
+		@apply flex justify-between items-end mb-2;
 	}
 	.catName,
 	.catType {

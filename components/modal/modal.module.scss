@@ -4,6 +4,17 @@
 
 .popup {
 	@apply bg-slate-600 min-w-[35%] mt-[10%];
+	animation: 0.2s ease-out 0s 1 slideInFromBottom;
+    @keyframes slideInFromBottom {
+      0% {
+        transform: translateY(100%);
+        opacity: 0;
+      }
+      100% {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
 
 	&__header {
 		@apply flex justify-between px-5 py-2 bg-slate-700 font-bold;
