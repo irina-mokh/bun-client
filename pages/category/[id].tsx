@@ -77,7 +77,7 @@ export default function Category() {
       <Link href="/">
         <a className={styles.back}>{`< Back`}</a>
       </Link>
-      <form onSubmit={editCategoryName}>
+      <form onSubmit={editCategoryName} className={styles.header}>
         <input
           className={styles.title}
           title="edit category title"

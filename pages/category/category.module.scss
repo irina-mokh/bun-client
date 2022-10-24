@@ -6,8 +6,12 @@
 	@apply text-slate-300 text-sm;
 }
 
+.header {
+	@apply flex justify-between;
+}
+
 .title {
-	@apply  font-bold text-2xl capitalize mb-2 bg-transparent border-none px-3 outline-none;
+	@apply font-bold text-2xl mb-2 bg-transparent border-none px-3 outline-none uppercase text-ellipsis flex-grow;
 }
 
 .submit {

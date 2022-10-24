@@ -103,7 +103,7 @@ export const Donut = (props: ICategory) => {
     <>
       <Link href={`/category/${id}`}>
         <div className={`${styles.category} ${border} ${outline} ${opacity}`} ref={ref}>
-          <a className={styles.category__name}>{name}</a>
+          <p className={styles.category__name}>{name}</p>
           <p className={styles.category__total}>{splitByDigits(total)}</p>
           {/* temp */}
           <p className="absolute -top-4 left-0 z-10 text-slate-500 text-xs">{id}</p>
