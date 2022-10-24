@@ -11,15 +11,18 @@
 }
 
 .submit {
-	@apply  p-2 outline-none opacity-50 hover:opacity-100;
+	@apply  p-2 outline-none opacity-0 transition-opacity hover:cursor-pointer;
 }
 
 .title:focus+.submit {
-	@apply inline-block;
+	@apply opacity-60;
+}
+.title:focus+.submit:hover {
+	@apply opacity-100;
 }
 
 .back {
-	@apply  block opacity-40 hover:opacity-100 my-2 transition-opacity;
+	@apply  opacity-40 hover:opacity-100 my-2 transition-opacity;
 }
 
 .list {

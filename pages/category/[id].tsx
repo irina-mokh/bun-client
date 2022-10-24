@@ -80,6 +80,8 @@ export default function Category() {
       <form onSubmit={editCategoryName}>
         <input
           className={styles.title}
+          title="edit category title"
+          autoComplete="off"
           defaultValue={name}
           name="categoryName"
           onChange={(e) => setName(e.target.value)}
