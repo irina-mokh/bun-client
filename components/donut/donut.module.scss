@@ -1,5 +1,5 @@
 .category {
-	@apply relative rounded-full w-20 h-20 flex flex-col justify-center items-center mr-2 mb-2 border-4 bg-slate-600 bg-opacity-50 shadow-sm hover:cursor-pointer hover:shadow-md outline-2 outline-dashed outline-offset-1;
+	@apply relative rounded-full w-20 h-20 flex flex-col justify-center items-center mr-2 mb-2 border-4 bg-slate-600 bg-opacity-50 shadow-sm hover:cursor-pointer hover:shadow-[0px_0px_8px_10px_rgba(28,28,28,0.15)] active:scale-105 transition-all outline-2 outline-dashed outline-offset-1;
 	
 	&__name {
 		@apply  w-4/5 h-5 leading-5 font-semibold text-sm  text-center truncate;
