@@ -22,5 +22,7 @@ function reverse(s: string) {
 
 export function splitByDigits(n: number) {
   const t = reverse(n.toString()).match(/.{1,3}/g);
-  return reverse(t.join(' '));
+  if (t) {
+    return reverse(t.join(' '));
+  }
 }

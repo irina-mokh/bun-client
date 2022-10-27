@@ -1,4 +1,4 @@
-import { configureStore, ThunkAction, Action, ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
+import { configureStore, ThunkAction, Action, ThunkDispatch, AnyAction, createImmutableStateInvariantMiddleware } from '@reduxjs/toolkit';
 import { combineReducers, Reducer, Store } from 'redux';
 
 import thunk from 'redux-thunk';
@@ -65,7 +65,8 @@ const persistConfig: PersistConfig<IState> = {
   blacklist: ['_persist'],
   stateReconciler: autoMergeLevel2,
 };
-const persistedReducer = persistReducer(persistConfig, reducer);
+// eslint-disable-next-line prettier/prettier
+const persistedReducer = persistReducer(persistConfig, reducer as Reducer<IState, AnyAction>);
 
 export const store = configureStore({
   reducer: persistedReducer,
