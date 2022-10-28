@@ -1,4 +1,4 @@
-import { configureStore, ThunkAction, Action, ThunkDispatch, AnyAction, createImmutableStateInvariantMiddleware } from '@reduxjs/toolkit';
+import { configureStore, ThunkAction, Action, ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
 import { combineReducers, Reducer, Store } from 'redux';
 
 import thunk from 'redux-thunk';
