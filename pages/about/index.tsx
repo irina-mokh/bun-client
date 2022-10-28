@@ -24,7 +24,7 @@ export default function About() {
         </li>
         <li className={styles.li}>
           <Image src={PhoneIcon} className={styles.icon} alt="icon" width="36" height="36" />
-          <p>You can use app on any device.</p>
+          <p className={styles.text}>You can use app on any device.</p>
         </li>
         <li className={styles.li}>
           <Image src={FlashIcon} className={styles.icon} alt="icon" width="36" height="36" />

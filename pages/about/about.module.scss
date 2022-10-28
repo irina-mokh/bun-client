@@ -1,14 +1,19 @@
 .box {
 	@apply py-4 relative;
 	background: 
-		url('../../assets/blue.svg') 110% 70% no-repeat,
+		url('../../assets/yellow.svg') 10% 100% no-repeat,
+		url('../../assets/blue.svg') 98% 70% no-repeat,
 		url('../../assets/milk.svg') 25% 105% no-repeat,
 		url('../../assets/red.svg') 38% 88% no-repeat,
+		url('../../assets/red.svg') 90% 88% no-repeat,
 		url('../../assets/green.svg') bottom right no-repeat,
-		url('../../assets/pink.svg') 80% 80% no-repeat,
-		url('../../assets/yellow.svg') 60% 100% no-repeat;
+		url('../../assets/milk.svg') 80% 80% no-repeat,
+		url('../../assets/yellow.svg') 60% 100% no-repeat,
+		url('../../assets/blue.svg') 55% 82% no-repeat,
+		url('../../assets/pink.svg') 75% 95% no-repeat,
+		url('../../assets/green.svg') 10% 80% no-repeat;
 
-	background-size: 20%, 20%, 20%, 20%;
+	background-size: 10%;
 }
 
 .heading {
@@ -20,17 +25,22 @@
 }
 
 .h3 {
-	@apply mb-5 text-2xl;
+	@apply mb-2 text-2xl;
 }
 
 .ul {
-  @apply grid sm:grid-cols-2 grid-cols-1;
+  @apply grid sm:grid-cols-2 grid-cols-1 gap-2;
 }
 
 .icon {
 	filter: invert(41%) sepia(21%) saturate(3044%) hue-rotate(137deg) brightness(98%) contrast(90%);
-	@apply mr-3;
+	@apply mr-1;
 }
+
 .li {
-	@apply flex items-center mb-5 text-xl;
+	@apply flex items-center text-xl;
+}
+
+.li .text {
+	@apply ml-2;
 }
