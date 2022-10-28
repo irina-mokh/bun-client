@@ -8,6 +8,7 @@ import { IAction } from '../../interfaces/action';
 
 import { Action } from '../action';
 import { Modal } from '../modal';
+import { ConfirmDialog } from '../confirmDialog';
 import { deleteAction } from '../../store/main/action';
 import { AppThunkDispatch } from '../../store';
 import { getCategoriesById, splitByDigits } from '../../utils';
@@ -34,8 +35,9 @@ export const ActionThumb = (props: IAction) => {
     setShowModal(false);
   };
 
-  const handleDeleteAction = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const [showDialog, setShowDialog] = useState(false);
+
+  const handleDeleteAction = () => {
     if (id) dispatch(deleteAction(id));
   };
 
@@ -52,9 +54,23 @@ export const ActionThumb = (props: IAction) => {
           <Action data={props} onSave="edit" close={closeModal} />
         </Modal>
       ) : null}
-      <button onClick={handleDeleteAction} className={styles.delete}>
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setShowDialog(true);
+        }}
+        className={styles.delete}
+      >
         🗙
       </button>
+      {showDialog && (
+        <ConfirmDialog
+          confirmText={`Delete transaction from ${catFrom.name} to ${catTo.name}: ${sum}?`}
+          setOpen={setShowDialog}
+          onConfirm={handleDeleteAction}
+        />
+      )}
     </article>
   );
 };

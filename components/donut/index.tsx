@@ -14,6 +14,7 @@ import { deleteCategory } from '../../store/main/action';
 import { Action } from '../action';
 import { Modal } from '../modal';
 import { splitByDigits } from '../../utils';
+import { ConfirmDialog } from '../confirmDialog';
 
 export const Donut = (props: ICategory) => {
   const { name, total, id, type } = props;
@@ -30,6 +31,9 @@ export const Donut = (props: ICategory) => {
   const closeModal = () => {
     setShowModal(false);
   };
+
+  const [showDialog, setShowDialog] = useState(false);
+
   //border by category type
   let border = 'transparent';
   switch (type) {
@@ -105,9 +109,22 @@ export const Donut = (props: ICategory) => {
         <div className={`${styles.category} ${border} ${outline} ${opacity}`} ref={ref}>
           <p className={styles.category__name}>{name}</p>
           <p className={styles.category__total}>{splitByDigits(total)}</p>
-          <button onClick={handleDeleteCategory} className={`${styles.delete} close-btn`}>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setShowDialog(true);
+            }}
+            className={`${styles.delete} close-btn`}
+          >
             🗙
           </button>
+          {showDialog && (
+            <ConfirmDialog
+              confirmText={`Delete category ${name.toUpperCase()}?`}
+              setOpen={setShowDialog}
+              onConfirm={handleDeleteCategory}
+            />
+          )}
         </div>
       </Link>
       {showModal ? (

@@ -12,11 +12,14 @@ import { ICategory } from '../../interfaces/category';
 import { deleteCategory, editCategory } from '../../store/main/action';
 import { selectMain } from '../../store/main/selectors';
 import { IAction } from '../../interfaces/action';
+import { ConfirmDialog } from '../../components/confirmDialog';
 
 export default function Category() {
   const router = useRouter();
   const { query } = router;
   const id = Number(query.id);
+
+  const [showDialog, setShowDialog] = useState(false);
 
   const dispatch: AppThunkDispatch = useDispatch();
   const { actions: allActs, categories } = useSelector(selectMain);
@@ -52,7 +55,7 @@ export default function Category() {
       );
     });
 
-  const handleDelete = (e: React.MouseEvent<HTMLElement>) => {
+  const handleDeleteCategory = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     dispatch(deleteCategory(id));
     // move to main page
@@ -89,9 +92,16 @@ export default function Category() {
         <input type="submit" className={styles.submit} value="&#10003;" />
       </form>
       <ul className={styles.content}>{actionsByDate}</ul>
-      <button className="btn btn_red" onClick={handleDelete}>
+      <button className="btn btn_red" onClick={() => setShowDialog(true)}>
         Delete category
       </button>
+      {showDialog && (
+        <ConfirmDialog
+          confirmText={`Delete category ${category?.name.toUpperCase()}?`}
+          setOpen={setShowDialog}
+          onConfirm={handleDeleteCategory}
+        />
+      )}
     </div>
   );
 }

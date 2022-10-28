@@ -1,0 +1,8 @@
+	.content {
+		@apply my-5 min-w-[300px];
+	}
+
+	.btns {
+		display: flex;
+		justify-content: space-evenly;
+	}
