@@ -45,7 +45,6 @@ export const ActionThumb = (props: IAction) => {
 
   return (
     <article className={`${styles.container} ${color}`} onClick={() => setShowModal(true)}>
-      <p className={styles.id}>{id}</p>
       <p className={styles.cat}>{cat2.name}</p>
       <p className={styles.sum}>{sumWithSign}</p>
       {showModal ? (

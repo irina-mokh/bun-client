@@ -105,9 +105,6 @@ export const Donut = (props: ICategory) => {
         <div className={`${styles.category} ${border} ${outline} ${opacity}`} ref={ref}>
           <p className={styles.category__name}>{name}</p>
           <p className={styles.category__total}>{splitByDigits(total)}</p>
-          {/* temp */}
-          <p className="absolute -top-4 left-0 z-10 text-slate-500 text-xs">{id}</p>
-
           <button onClick={handleDeleteCategory} className={`${styles.delete} close-btn`}>
             🗙
           </button>
