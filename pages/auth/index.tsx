@@ -7,11 +7,10 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { IAuthForm } from '../../interfaces/user';
 import { AppThunkDispatch } from '../../store';
 import { createUser, login } from '../../store/auth/actions';
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 
 export default function Auth() {
   const dispatch: AppThunkDispatch = useDispatch();
-  const router = useRouter();
   const onSubmit: SubmitHandler<IAuthForm> = (data) => {
     const { password, email, tab } = data;
 
@@ -21,8 +20,9 @@ export default function Auth() {
           email: email,
           password: password,
         })
-      );
-      router.push('/');
+      ).then(() => {
+        Router.push('/');
+      });
     } else if (tab === 'signup') {
       if (password === data.password2) {
         dispatch(

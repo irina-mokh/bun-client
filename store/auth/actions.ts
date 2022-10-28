@@ -1,6 +1,6 @@
 // actions.tsx is for async actions
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IUser, INewUser } from '../../interfaces/user';
+import { INewUser } from '../../interfaces/user';
 import { axiosClient } from '../../utils/axios';
 
 export const createUser = createAsyncThunk(
