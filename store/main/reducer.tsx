@@ -1,4 +1,5 @@
 import { createSlice, current } from '@reduxjs/toolkit';
+import { IAction } from '../../interfaces/action';
 import { ICategory } from '../../interfaces/category';
 import { IMainState } from '../../interfaces/store';
 
@@ -74,9 +75,36 @@ const mainSlice = createSlice({
       state.error = null;
     },
     'main/getActions/fulfilled': (state, action) => {
-      state.actions = action.payload;
+      const { data, catId } = action.payload;
+      state.actions = data;
       state.error = null;
       state.isLoading = false;
+
+      const { categories, period } = state;
+      const cat = categories.filter((cat) => cat.id === catId)[0];
+      const index = categories.findIndex((item) => item.id === catId);
+      let catTotal = cat.type == 'asset' ? cat.total : 0;
+      if (cat.type == 'asset') {
+        data.forEach((act: IAction) => {
+          // include all acts by date before current period
+          if (new Date(act.date) <= new Date(period)) {
+            if (act.from === catId) {
+              catTotal -= Number(act.sum);
+            } else {
+              catTotal += Number(act.sum);
+            }
+          }
+        });
+        // for assets and expenses
+      } else {
+        // include only dates of current period
+        data.forEach((act: IAction) => {
+          if (act.date.slice(0, 7) == period) {
+            catTotal += Number(act.sum);
+          }
+        });
+      }
+      state.categories[index].total = catTotal;
     },
     'main/getAction/pending': (state) => {
       state.isLoading = true;

@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IAction } from '../../interfaces/action';
+import { AnyAction } from '@reduxjs/toolkit';
 import { ICategory, ICategoryNew } from '../../interfaces/category';
 import { axiosClient } from '../../utils/axios';
 import { updateTotals } from './reducer';
@@ -38,8 +39,9 @@ export const deleteCategory = createAsyncThunk(
     const url = `category`;
 
     // delete all actions inside category
-    const actions: IAction[] = await (await dispatch(getActions(id))).payload;
-    actions.forEach((action) => {
+    const response: AnyAction = await dispatch(getActions(id));
+    const actions = response.payload.data;
+    actions.forEach((action: IAction) => {
       if (action.id) {
         dispatch(deleteAction(action.id));
       }
@@ -142,7 +144,7 @@ export const getActions = createAsyncThunk(
   async function (categoryId: number, { rejectWithValue }) {
     try {
       const response = await axiosClient.get(`action?catId=${categoryId}`);
-      return response.data;
+      return { data: response.data, catId: categoryId };
     } catch (err) {
       console.log('Something went wrong ->', err);
       return rejectWithValue(err);

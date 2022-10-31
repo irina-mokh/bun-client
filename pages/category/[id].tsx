@@ -15,6 +15,7 @@ import { IAction } from '../../interfaces/action';
 import { ConfirmDialog } from '../../components/confirmDialog';
 
 export default function Category() {
+  console.log('category render');
   const router = useRouter();
   const { query } = router;
   const id = Number(query.id);
@@ -26,7 +27,7 @@ export default function Category() {
   const category = categories.find((cat: ICategory) => cat.id == id);
   useEffect(() => {
     dispatch(getActions(id));
-  }, [dispatch, allActs]);
+  }, [dispatch]);
 
   //  create a set of dates
   const dates = new Set<string>();

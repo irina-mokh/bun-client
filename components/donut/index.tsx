@@ -4,20 +4,22 @@ import { ICategory } from '../../interfaces/category';
 import { IAction } from '../../interfaces/action';
 
 import Link from 'next/link';
-import { useState, useRef, MutableRefObject } from 'react';
+import { useState, useRef, MutableRefObject, useEffect } from 'react';
 import { useDrag, useDrop, DragSourceMonitor, DropTargetMonitor } from 'react-dnd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { AppThunkDispatch } from '../../store';
-import { deleteCategory } from '../../store/main/action';
+import { deleteCategory, getActions } from '../../store/main/action';
 
 import { Action } from '../action';
 import { Modal } from '../modal';
 import { splitByDigits } from '../../utils';
 import { ConfirmDialog } from '../confirmDialog';
+import { selectMain } from '../../store/main/selectors';
 
 export const Donut = (props: ICategory) => {
   const { name, total, id, type } = props;
+  const { period } = useSelector(selectMain);
   const [newAction, setNewAction] = useState<IAction>({
     from: 1,
     to: 1,
@@ -25,6 +27,10 @@ export const Donut = (props: ICategory) => {
     date: new Date().toISOString().split('T')[0],
   });
   const dispatch: AppThunkDispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getActions(id));
+  }, [dispatch, period]);
 
   // action creation modal
   const [showModal, setShowModal] = useState(false);
