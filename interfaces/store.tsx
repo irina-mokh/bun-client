@@ -7,6 +7,7 @@ export type IMainState = {
   isLoading: boolean,
   categories: Array<ICategory>,
   actions: Array<IAction>,
+  period: string,
 };
 
 export type IAuthState = {

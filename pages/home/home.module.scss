@@ -1,0 +1,9 @@
+.main {
+	@apply grid grid-rows-[auto_130px_130px_1fr] py-3;
+}
+.period {
+	@apply text-slate-500 bg-transparent ml-auto h-8;
+	&::-webkit-calendar-picker-indicator {
+		filter: invert(0.6);
+	}
+}

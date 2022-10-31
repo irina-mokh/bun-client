@@ -1,13 +1,14 @@
 import { ICategory } from '../interfaces/category';
-// import { useState } from 'react';
 
 import { Section } from '../components/section';
 import { AppThunkDispatch } from '../store';
 import { getAllCategories } from '../store/main/action';
 import { useRouter } from 'next/router';
+import styles from './home/home.module.scss';
 
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { setPeriod } from '../store/main/reducer';
 import { selectAuth } from '../store/auth/selectors';
 import { selectMain } from '../store/main/selectors';
 
@@ -20,7 +21,7 @@ const Home = () => {
   //   dispatch(login({ email: 'test2@mail.ru', password: '123456' }));
   // }, []);
 
-  const { categories } = useSelector(selectMain);
+  const { categories, period } = useSelector(selectMain);
 
   useEffect(() => {
     const userId = user ? user.id : 0;
@@ -44,9 +45,16 @@ const Home = () => {
         break;
     }
   });
+
   if (user) {
     return (
-      <main className="box grid grid-rows-[130px_130px_1fr] py-3">
+      <main className={`box ${styles.main}`}>
+        <input
+          className={`input ${styles.period}`}
+          type="month"
+          value={period}
+          onChange={(e) => dispatch(setPeriod(e.target.value))}
+        ></input>
         <Section data={incomes} type="income" />
         <Section data={assets} type="asset" />
         <Section data={expenses} type="expense" />

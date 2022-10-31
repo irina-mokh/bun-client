@@ -7,12 +7,16 @@ const initialState: IMainState = {
   isLoading: false,
   categories: [],
   actions: [],
+  period: new Date().toLocaleDateString('fr-CA', { year: 'numeric', month: '2-digit' }),
 };
 
 const mainSlice = createSlice({
   name: 'main',
   initialState,
   reducers: {
+    setPeriod: (state, action) => {
+      state.period = action.payload;
+    },
     //update client totals of categories after creating/deleting action
     updateTotals: (state, action) => {
       const { categories } = current(state);
@@ -111,6 +115,6 @@ const mainSlice = createSlice({
   },
 });
 
-export const { updateTotals } = mainSlice.actions;
+export const { updateTotals, setPeriod } = mainSlice.actions;
 
 export default mainSlice.reducer;
