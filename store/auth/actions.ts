@@ -1,8 +1,13 @@
 // actions.tsx is for async actions
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { AxiosError, AxiosResponse } from 'axios';
+import axios from 'axios';
 import { INewUser } from '../../interfaces/user';
 import { axiosClient } from '../../utils/axios';
 
+interface KnownErr {
+  message: string;
+}
 export const createUser = createAsyncThunk(
   'auth/createUser',
   async function (user: INewUser, { rejectWithValue }) {
@@ -26,7 +31,7 @@ export const login = createAsyncThunk(
       return response.data;
     } catch (err) {
       console.log('Something went wrong ->', err);
-      return rejectWithValue(err);
+      return rejectWithValue('Invalid email or password');
     }
   }
 );

@@ -3,19 +3,19 @@
 }
 
 .tabs {
-	@apply flex justify-around mb-2;
-}
-
-.radio {
-	@apply hidden;
+	@apply flex justify-around h-12 mb-2 p-1;
 }
 
 .tab {
-  @apply w-full text-center opacity-30 hover:cursor-pointer border border-transparent;
+  @apply block w-full m-1 text-center opacity-30 hover:cursor-pointer border border-transparent;
 }
 
-.radio:checked+.tab {
+.radio:checked + .tab {
   @apply text-teal-500 opacity-100 border-teal-500;
+}
+
+.radio:focus + .tab {
+	@apply ring-1 ring-slate-300 ring-offset-1;
 }
 
 .heading {

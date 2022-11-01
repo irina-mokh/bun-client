@@ -1,19 +1,22 @@
 import styles from './auth.module.scss';
 
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm, SubmitHandler } from 'react-hook-form';
 
 import { IAuthForm } from '../../interfaces/user';
 import { AppThunkDispatch } from '../../store';
 import { createUser, login } from '../../store/auth/actions';
 import Router from 'next/router';
+import { selectAuth } from '../../store/auth/selectors';
+import { setError } from '../../store/auth/reducer';
 
 export default function Auth() {
   const dispatch: AppThunkDispatch = useDispatch();
+  const { error, user } = useSelector(selectAuth);
+
   const onSubmit: SubmitHandler<IAuthForm> = (data) => {
     const { password, email, tab } = data;
-
     if (tab === 'signin') {
       dispatch(
         login({
@@ -21,7 +24,9 @@ export default function Auth() {
           password: password,
         })
       ).then(() => {
-        Router.push('/');
+        if (user?.id) {
+          Router.push('/');
+        }
       });
     } else if (tab === 'signup') {
       if (password === data.password2) {
@@ -40,7 +45,7 @@ export default function Auth() {
     handleSubmit,
     watch,
     setValue,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isSubmitted },
   } = useForm<IAuthForm>({ mode: 'onChange' });
   const password = watch('password');
   const tab = watch('tab');
@@ -62,14 +67,21 @@ export default function Auth() {
     );
   return (
     <div className={styles.box}>
-      <form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        autoComplete="off"
+        onChange={() => {
+          dispatch(setError(''));
+        }}
+      >
         <fieldset className={styles.tabs}>
           <input
             type="radio"
             id="signin"
             {...register('tab')}
+            name="tab"
             value="signin"
-            className={styles.radio}
+            className={`visually-hidden ${styles.radio}`}
             defaultChecked
           />
           <label htmlFor="signin" className={styles.tab}>
@@ -79,8 +91,9 @@ export default function Auth() {
             type="radio"
             id="signup"
             {...register('tab')}
+            name="tab"
             value="signup"
-            className={styles.radio}
+            className={`visually-hidden ${styles.radio}`}
           />
           <label htmlFor="signup" className={styles.tab}>
             Sign up
@@ -91,9 +104,9 @@ export default function Auth() {
           <label htmlFor="email">E-mail:</label>
           <input
             className="input"
-            placeholder="email"
+            placeholder="useremail@gmail.com"
             id="email"
-            autoComplete="off"
+            type="email"
             {...register('email', {
               required: true,
               pattern: {
@@ -113,7 +126,6 @@ export default function Auth() {
             type="password"
             placeholder="password"
             id="password"
-            autoComplete="off"
             {...register('password', {
               required: true,
               minLength: {
@@ -131,7 +143,6 @@ export default function Auth() {
                 placeholder="password"
                 type="password"
                 id="password2"
-                autoComplete="off"
                 {...register('password2', {
                   required: true,
                   validate: {
@@ -143,11 +154,17 @@ export default function Auth() {
             </>
           )}
         </fieldset>
-        <button type="submit" className="btn btn_yellow" disabled={!isValid}>
+        <button
+          type="submit"
+          className="btn btn_yellow"
+          disabled={!isValid}
+          aria-label={tab === 'signin' ? 'Sign In' : 'Sign Up'}
+        >
           {tab === 'signin' ? 'Sign In' : 'Sign Up'}
         </button>
         {hint}
       </form>
+      {error && isSubmitted && <span className="error">{error}</span>}
     </div>
   );
 }
