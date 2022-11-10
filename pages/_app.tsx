@@ -2,19 +2,25 @@ import '../styles/globals.scss';
 
 import Head from 'next/head';
 import type { AppProps } from 'next/app';
+import { useEffect, useState } from 'react';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { TouchBackend } from 'react-dnd-touch-backend';
 
 import { wrapper, store, persistor } from '../store';
 import { Header } from '../components/header';
 import { Footer } from '../components/footer';
 
 function App({ Component, pageProps }: AppProps) {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() =>{
+    setIsMobile(/Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent));
+    }, []);
   return (
     <Provider store={store}>
-      <DndProvider backend={HTML5Backend}>
+      <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
         <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
           <div className="grid grid-rows-[auto_1fr_auto] min-h-screen">
             <Head>

@@ -6,6 +6,7 @@ import { IAction } from '../../interfaces/action';
 import Link from 'next/link';
 import { useState, useRef, MutableRefObject, useEffect } from 'react';
 import { useDrag, useDrop, DragSourceMonitor, DropTargetMonitor } from 'react-dnd';
+import { getEmptyImage } from 'react-dnd-html5-backend';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppThunkDispatch } from '../../store';
@@ -16,6 +17,7 @@ import { Modal } from '../modal';
 import { splitByDigits } from '../../utils';
 import { ConfirmDialog } from '../confirmDialog';
 import { selectMain } from '../../store/main/selectors';
+import { DragLayer } from '../dragLayer';
 
 export const Donut = (props: ICategory) => {
   const { name, total, id, type } = props;
@@ -63,7 +65,7 @@ export const Donut = (props: ICategory) => {
   const ref: MutableRefObject<HTMLDivElement | null> = useRef(null);
 
   // Drag donut
-  const [{ opacity }, drag] = useDrag(
+  const [{ opacity, isDragging }, drag, preview] = useDrag(
     () => ({
       type: 'donut',
       item: props,
@@ -74,7 +76,10 @@ export const Donut = (props: ICategory) => {
     }),
     [props]
   );
-
+  
+  useEffect(() => {
+		preview(getEmptyImage())
+}, []);
   // Drop donut
   const [{ canDrop, isOver }, drop] = useDrop(
     () => ({
@@ -133,6 +138,7 @@ export const Donut = (props: ICategory) => {
           )}
         </div>
       </Link>
+      <DragLayer {...props} isDragging={isDragging}/>
       {showModal ? (
         <Modal close={closeModal} title={`New transaction`}>
           <Action data={newAction} close={closeModal} onSave="create" />
