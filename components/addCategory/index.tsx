@@ -23,8 +23,8 @@ export default function AddCategory(props: AddCategoryProps) {
   const { register, handleSubmit, setFocus } = useForm<ICategoryForm>();
   const onSubmit: SubmitHandler<ICategoryForm> = (data) => {
     const { name, type } = data;
-    const total = Number(data.total) || 0;
-    dispatch(createCategory({ name, type, total, userId }));
+    const start = Number(data.start) || 0;
+    dispatch(createCategory({ name, type, start, userId }));
     props.close();
   };
 
@@ -68,7 +68,7 @@ export default function AddCategory(props: AddCategoryProps) {
             <input
               className={`${styles.catName} input`}
               id="sum"
-              {...register('total', { required: true })}
+              {...register('start', { required: true })}
               placeholder="Sum"
             ></input>
           </>

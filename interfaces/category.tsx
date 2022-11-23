@@ -1,6 +1,6 @@
 export interface ICategoryForm {
   type: string;
-  total: number;
+  start: number;
   name: string;
 }
 export interface ICategoryNew extends ICategoryForm {
@@ -9,4 +9,5 @@ export interface ICategoryNew extends ICategoryForm {
 
 export interface ICategory extends ICategoryNew {
   id: number;
+  total: number;
 }

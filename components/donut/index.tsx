@@ -7,21 +7,20 @@ import Link from 'next/link';
 import { useState, useRef, MutableRefObject, useEffect } from 'react';
 import { useDrag, useDrop, DragSourceMonitor, DropTargetMonitor } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { AppThunkDispatch } from '../../store';
-import { deleteCategory, getActions } from '../../store/main/action';
+import { deleteCategory } from '../../store/main/action';
 
 import { Action } from '../action';
 import { Modal } from '../modal';
 import { splitByDigits } from '../../utils';
 import { ConfirmDialog } from '../confirmDialog';
-import { selectMain } from '../../store/main/selectors';
 import { DragLayer } from '../dragLayer';
 
 export const Donut = (props: ICategory) => {
-  const { name, total, id, type } = props;
-  const { period } = useSelector(selectMain);
+  const { name, id, type, total, start } = props;
+
   const [newAction, setNewAction] = useState<IAction>({
     from: 1,
     to: 1,
@@ -29,10 +28,6 @@ export const Donut = (props: ICategory) => {
     date: new Date().toISOString().split('T')[0],
   });
   const dispatch: AppThunkDispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getActions(id));
-  }, [dispatch, period]);
 
   // action creation modal
   const [showModal, setShowModal] = useState(false);
@@ -76,10 +71,10 @@ export const Donut = (props: ICategory) => {
     }),
     [props]
   );
-  
+
   useEffect(() => {
-		preview(getEmptyImage())
-}, []);
+    preview(getEmptyImage());
+  }, []);
   // Drop donut
   const [{ canDrop, isOver }, drop] = useDrop(
     () => ({
@@ -119,7 +114,7 @@ export const Donut = (props: ICategory) => {
       <Link href={`/category/${id}`}>
         <div className={`${styles.category} ${border} ${outline} ${opacity}`} ref={ref}>
           <p className={styles.category__name}>{name}</p>
-          <p className={styles.category__total}>{splitByDigits(total)}</p>
+          <p className={styles.category__total}>{splitByDigits(total ? total : start)}</p>
           <button
             onClick={(e) => {
               e.preventDefault();
@@ -138,7 +133,7 @@ export const Donut = (props: ICategory) => {
           )}
         </div>
       </Link>
-      <DragLayer {...props} isDragging={isDragging}/>
+      <DragLayer {...props} isDragging={isDragging} />
       {showModal ? (
         <Modal close={closeModal} title={`New transaction`}>
           <Action data={newAction} close={closeModal} onSave="create" />

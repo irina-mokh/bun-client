@@ -8,25 +8,28 @@ import styles from './home/home.module.scss';
 
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPeriod } from '../store/main/reducer';
+import { setPeriod, updateTotalByPeriod } from '../store/main/reducer';
 import { selectAuth } from '../store/auth/selectors';
 import { selectMain } from '../store/main/selectors';
+import { getActions } from '../store/main/action';
 
 const Home = () => {
   const dispatch: AppThunkDispatch = useDispatch();
   const router = useRouter();
   const { user } = useSelector(selectAuth);
-  //temp login
-  // useEffect(() => {
-  //   dispatch(login({ email: 'test2@mail.ru', password: '123456' }));
-  // }, []);
 
-  const { categories, period } = useSelector(selectMain);
+  const { categories, period, actions } = useSelector(selectMain);
 
   useEffect(() => {
     const userId = user ? user.id : 0;
-    dispatch(getAllCategories(userId));
-  }, [dispatch]);
+    Promise.all([dispatch(getAllCategories(userId)), dispatch(getActions(0))]).then(() =>
+      categories.forEach((cat) => dispatch(updateTotalByPeriod(cat.id)))
+    );
+  }, []);
+
+  useEffect(() => {
+    categories.forEach((cat) => dispatch(updateTotalByPeriod(cat.id)));
+  }, [period, actions, categories]);
 
   const incomes: ICategory[] = [];
   const assets: ICategory[] = [];

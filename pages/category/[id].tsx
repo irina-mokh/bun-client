@@ -15,7 +15,6 @@ import { IAction } from '../../interfaces/action';
 import { ConfirmDialog } from '../../components/confirmDialog';
 
 export default function Category() {
-  console.log('category render');
   const router = useRouter();
   const { query } = router;
   const id = Number(query.id);
@@ -24,6 +23,8 @@ export default function Category() {
 
   const dispatch: AppThunkDispatch = useDispatch();
   const { actions: allActs, categories } = useSelector(selectMain);
+  const curActions = allActs.filter((act) => act.from == id || act.to == id);
+  console.log('filtered actions', curActions);
   const category = categories.find((cat: ICategory) => cat.id == id);
   useEffect(() => {
     dispatch(getActions(id));
@@ -31,7 +32,7 @@ export default function Category() {
 
   //  create a set of dates
   const dates = new Set<string>();
-  allActs.forEach((act: IAction) => {
+  curActions.forEach((act: IAction) => {
     dates.add(act.date);
   });
   function dateToNum(d: string) {
@@ -42,7 +43,7 @@ export default function Category() {
   const actionsByDate = Array.from(dates)
     .sort((a, b) => dateToNum(b) - dateToNum(a))
     .map((date) => {
-      const filteredActs = allActs.filter((act: IAction) => act.date === date);
+      const filteredActs = curActions.filter((act: IAction) => act.date === date);
       const renderedActs = filteredActs.map((action: IAction) => (
         <li key={action.id}>
           <ActionThumb {...action}></ActionThumb>

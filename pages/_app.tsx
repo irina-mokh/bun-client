@@ -15,9 +15,9 @@ import { Footer } from '../components/footer';
 
 function App({ Component, pageProps }: AppProps) {
   const [isMobile, setIsMobile] = useState(false);
-  useEffect(() =>{
+  useEffect(() => {
     setIsMobile(/Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent));
-    }, []);
+  }, []);
   return (
     <Provider store={store}>
       <DndProvider backend={isMobile ? TouchBackend : HTML5Backend}>
