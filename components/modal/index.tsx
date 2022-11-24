@@ -21,11 +21,19 @@ export const Modal = ({ close, children, title }: ModalProps) => {
   };
 
   const modalContent = (
-    <div className={styles.overlay} onClick={closeModal}>
+    <div
+      className={styles.overlay}
+      onClick={closeModal}
+      onKeyDown={(e) => {
+        if ((e.key = 'Escape')) {
+          close();
+        }
+      }}
+    >
       <div className={styles.popup} onClick={(e) => e.stopPropagation()}>
         <header className={styles.popup__header}>
           {title && <h2>{title}</h2>}
-          <button className="close-btn" onClick={closeModal}>
+          <button className="close-btn" onClick={closeModal} aria-label="close">
             🗙
           </button>
         </header>
