@@ -20,16 +20,18 @@ export const Modal = ({ close, children, title }: ModalProps) => {
     close();
   };
 
+  useEffect(() => {
+    const closeEsc = (e: KeyboardEvent) => {
+      if (e.code === 'Escape') {
+        close();
+      }
+    };
+    document.addEventListener('keydown', closeEsc);
+    return () => document.removeEventListener('keydown', close);
+  }, []);
+
   const modalContent = (
-    <div
-      className={styles.overlay}
-      onClick={closeModal}
-      onKeyDown={(e) => {
-        if ((e.key = 'Escape')) {
-          close();
-        }
-      }}
-    >
+    <div className={styles.overlay} onClick={closeModal}>
       <div className={styles.popup} onClick={(e) => e.stopPropagation()}>
         <header className={styles.popup__header}>
           {title && <h2>{title}</h2>}
