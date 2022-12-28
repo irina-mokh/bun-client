@@ -17,19 +17,17 @@ const Home = () => {
   const dispatch: AppThunkDispatch = useDispatch();
   const router = useRouter();
   const { user } = useSelector(selectAuth);
+  const userId = user ? user.id : 0;
 
   const { categories, period, actions } = useSelector(selectMain);
 
   useEffect(() => {
-    const userId = user ? user.id : 0;
-    Promise.all([dispatch(getAllCategories(userId)), dispatch(getActions(0))]).then(() =>
-      categories.forEach((cat) => dispatch(updateTotalByPeriod(cat.id)))
-    );
-  }, []);
+    Promise.all([dispatch(getAllCategories(userId)), dispatch(getActions(0))]);
+  }, [period]);
 
   useEffect(() => {
     categories.forEach((cat) => dispatch(updateTotalByPeriod(cat.id)));
-  }, [period, actions, categories]);
+  }, [actions]);
 
   const incomes: ICategory[] = [];
   const assets: ICategory[] = [];
@@ -67,23 +65,5 @@ const Home = () => {
     router.push('/auth');
   }
 };
-
-// export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
-//   const dispatch: AppThunkDispatch = store.dispatch;
-//   // temp login
-//   await dispatch(
-//     login({
-//       email: 'test2@mail.ru',
-//       password: '123456',
-//     })
-//   );
-
-//   const { user } = store.getState().auth;
-//   const userId = user ? user.id : 0;
-
-//   await dispatch(getAllCategories(userId));
-//   const { categories } = store.getState().main;
-//   return { props: { categories } };
-// });
 
 export default Home;

@@ -3,10 +3,9 @@ import styles from './category.module.scss';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { AppThunkDispatch } from '../../store';
-import { getActions } from '../../store/main/action';
 import { ActionThumb } from '../../components/actionThumb';
 import { ICategory } from '../../interfaces/category';
 import { deleteCategory, editCategory } from '../../store/main/action';
@@ -24,22 +23,19 @@ export default function Category() {
   const dispatch: AppThunkDispatch = useDispatch();
   const { actions: allActs, categories } = useSelector(selectMain);
   const curActions = allActs.filter((act) => act.from == id || act.to == id);
-  console.log('filtered actions', curActions);
-  const category = categories.find((cat: ICategory) => cat.id == id);
-  useEffect(() => {
-    dispatch(getActions(id));
-  }, [dispatch]);
 
-  //  create a set of dates
-  const dates = new Set<string>();
-  curActions.forEach((act: IAction) => {
-    dates.add(act.date);
-  });
   function dateToNum(d: string) {
     const s = d.split('-');
     return Number(s[0] + s[1] + s[2]);
   }
-  // create a  rendered element
+
+  const dates = new Set<string>();
+  //update a set of dates
+  curActions.forEach((act: IAction) => {
+    dates.add(act.date);
+  });
+
+  // update a rendered list of actions
   const actionsByDate = Array.from(dates)
     .sort((a, b) => dateToNum(b) - dateToNum(a))
     .map((date) => {
@@ -56,6 +52,8 @@ export default function Category() {
         </li>
       );
     });
+
+  const category = categories.find((cat: ICategory) => cat.id == id);
 
   const handleDeleteCategory = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
@@ -107,17 +105,3 @@ export default function Category() {
     </div>
   );
 }
-
-// export const getServerSideProps = wrapper.getServerSideProps((store) => async (ctx) => {
-//   const id = Number(ctx.params?.id);
-//   const dispatch: AppThunkDispatch = store.dispatch;
-//   await dispatch(getActions(id));
-//   const { actions, categories } = store.getState().main;
-//   const category = categories.filter((cat: ICategory) => cat.id == id);
-//   return {
-//     props: {
-//       cat: category.length ? category[0] : [],
-//       acts: actions,
-//     },
-//   };
-// });

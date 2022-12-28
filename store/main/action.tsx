@@ -3,7 +3,6 @@ import { IAction } from '../../interfaces/action';
 import { AnyAction } from '@reduxjs/toolkit';
 import { ICategory, ICategoryNew } from '../../interfaces/category';
 import { axiosClient } from '../../utils/axios';
-// import { updateTotals } from './reducer';
 
 export const createCategory = createAsyncThunk(
   'main/createCategory',
@@ -24,8 +23,8 @@ export const editCategory = createAsyncThunk(
   async function (cat: ICategory, { rejectWithValue }) {
     const url = `category`;
     try {
-      const response = await axiosClient.put(url, cat);
-      return response.data;
+      await axiosClient.put(url, cat);
+      return cat;
     } catch (err) {
       console.log('Something went wrong ->', err);
       return rejectWithValue(err);
@@ -72,16 +71,8 @@ export const getAllCategories = createAsyncThunk(
 
 export const createAction = createAsyncThunk(
   'main/createAction',
-  async function (action: IAction, { rejectWithValue, dispatch }) {
+  async function (action: IAction, { rejectWithValue }) {
     const url = `action`;
-    // update totals of connected categories
-    // dispatch(
-    //   updateTotals({
-    //     from: action.from,
-    //     to: action.to,
-    //     sum: action.sum,
-    //   })
-    // );
     try {
       const response = await axiosClient.post(url, action);
       return response.data;
@@ -94,18 +85,8 @@ export const createAction = createAsyncThunk(
 
 export const deleteAction = createAsyncThunk(
   'main/deleteAction',
-  async function (id: number, { rejectWithValue, dispatch }) {
+  async function (id: number, { rejectWithValue }) {
     const url = `action`;
-
-    // update totals of connected categories
-    const action = await (await dispatch(getAction(id))).payload;
-    // dispatch(
-    //   updateTotals({
-    //     from: action.from,
-    //     to: action.to,
-    //     sum: -action.sum,
-    //   })
-    // );
 
     try {
       await axiosClient.delete(url, { data: { id: id } });
@@ -119,19 +100,11 @@ export const deleteAction = createAsyncThunk(
 
 export const editAction = createAsyncThunk(
   'main/editAction',
-  async function (action: IAction, { rejectWithValue, dispatch }) {
+  async function (action: IAction, { rejectWithValue }) {
     const url = `action`;
-    // update totals of connected categories
-    // dispatch(
-    //   updateTotals({
-    //     from: action.from,
-    //     to: action.to,
-    //     sum: action.sum,
-    //   })
-    // );
     try {
-      const response = await axiosClient.put(url, action);
-      return response.data;
+      await axiosClient.put(url, action);
+      return action;
     } catch (err) {
       console.log('Something went wrong ->', err);
       return rejectWithValue(err);
@@ -144,7 +117,6 @@ export const getActions = createAsyncThunk(
   async function (categoryId: number, { rejectWithValue }) {
     const url = `action${categoryId > 0 ? '?catId=' + categoryId : ''}`;
     try {
-      console.log(url);
       const response = await axiosClient.get(url);
       return { data: response.data, catId: categoryId };
     } catch (err) {

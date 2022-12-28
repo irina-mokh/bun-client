@@ -1,6 +1,5 @@
-import { createSlice, current } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { IAction } from '../../interfaces/action';
-import { ICategory } from '../../interfaces/category';
 import { IMainState } from '../../interfaces/store';
 
 const initialState: IMainState = {
@@ -50,36 +49,7 @@ const mainSlice = createSlice({
         });
       }
       state.categories[index].total = catTotal;
-      console.log('upd total', id);
     },
-    //update client totals of categories after creating/deleting action
-    // updateTotals: (state, action) => {
-    //   console.log('upd totals', action.payload);
-    //   const { categories } = current(state);
-    //   //clone state to mutate
-    //   const clone: Array<ICategory> = JSON.parse(JSON.stringify(categories));
-    //   // convert strings to numbers
-    //   const sum = +action.payload.sum;
-    //   const from = +action.payload.from;
-    //   const to = +action.payload.to;
-
-    //   const newCategories = clone.map((cat: ICategory) => {
-    //     switch (cat.id) {
-    //       case from:
-    //         if (cat.type === 'income') {
-    //           cat.total += sum;
-    //         } else {
-    //           cat.total -= sum;
-    //         }
-    //         break;
-    //       case to:
-    //         cat.total += sum;
-    //         break;
-    //     }
-    //     return cat;
-    //   });
-    //   state.categories = newCategories;
-    // },
   },
   extraReducers: {
     // CATEGORIES
@@ -89,10 +59,8 @@ const mainSlice = createSlice({
     },
     'main/getAllCategories/fulfilled': (state, action) => {
       state.categories = action.payload;
-      state.actions = [];
       state.error = null;
       state.isLoading = false;
-      console.log('getAllCategories fulfilled');
     },
     'main/getAllCategories/rejected': (state, action) => {
       state.error = String(action.payload);
@@ -107,6 +75,10 @@ const mainSlice = createSlice({
       const { categories } = state;
       state.categories = [...categories.filter((item) => item.id !== id)];
     },
+    'main/editCategory/fulfilled': (state, action) => {
+      const index = state.categories.findIndex((item) => item.id == action.payload.id);
+      state.categories[index] = { ...action.payload };
+    },
 
     //ACTIONS
     'main/getActions/pending': (state) => {
@@ -118,7 +90,6 @@ const mainSlice = createSlice({
       state.actions = data;
       state.error = null;
       state.isLoading = false;
-      console.log('getActions fulfilled');
     },
     'main/getAction/pending': (state) => {
       state.isLoading = true;
@@ -136,13 +107,7 @@ const mainSlice = createSlice({
       state.error = null;
       state.isLoading = false;
       const newAction = action.payload;
-      // const cur = action.payload;
       state.actions = [...state.actions, newAction];
-      // updateTotals({
-      //   from: cur.from,
-      //   to: cur.to,
-      //   sum: cur.sum,
-      // });
     },
     'main/deleteAction/pending': (state) => {
       state.isLoading = true;
@@ -154,7 +119,7 @@ const mainSlice = createSlice({
     },
     'main/editAction/fulfilled': (state, action) => {
       const index = state.actions.findIndex((item) => item.id == action.payload.id);
-      state.actions[index] = action.payload;
+      state.actions[index] = { ...action.payload };
     },
   },
 });
