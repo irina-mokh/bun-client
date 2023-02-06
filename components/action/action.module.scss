@@ -1,11 +1,10 @@
-.action {
+.wrapper {
 	@apply container mx-auto max-w-sm px-4;
+}
+.fieldset {
+	@apply flex flex-col mb-2;
+}
 
-	&__fieldset {
-		@apply flex flex-col mb-2;
-	}
-
-	&__info {
-		@apply flex justify-between;
-	}
+.info {
+	@apply flex justify-between;
 }

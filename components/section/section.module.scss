@@ -1,4 +1,4 @@
-.section {
+.wrapper {
 	@apply w-full  overflow-x-auto;
 	&::-webkit-scrollbar {
     @apply w-1 h-1;
@@ -8,18 +8,17 @@
 	}
 	&::-webkit-scrollbar-thumb {
     @apply bg-slate-800 border-r-2 bg-opacity-30;
+	}
 }
 
-	.wrap {
-		@apply flex-wrap;
-	}
-	.list {
-		@apply flex items-center w-full px-3;
-	}
+.list {
+	@apply flex items-center w-full px-3;
+}
+
+.expense {
+	@apply flex-wrap;
 }
 
 .heading {
 	@apply uppercase text-sm text-slate-400 my-2;
 }
-
-

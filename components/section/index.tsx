@@ -27,12 +27,12 @@ export const Section = (props: SectionProps) => {
   );
 
   return (
-    <section className={`${styles.section} ${styles.section}_${type}`}>
+    <section className={styles.section}>
       <h2 className={styles.heading}>
         {props.type + 's: '}
         <span>{splitByDigits(total)}</span>
       </h2>
-      <ul className={`${styles.list} ${type === 'expense' ? styles.wrap : null}`}>
+      <ul className={`${styles.list} ${type === 'expense' ? styles.expense : null}`}>
         {donuts}
         <li key="add">
           <AddButton type={props.type}></AddButton>

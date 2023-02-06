@@ -60,9 +60,9 @@ export const Action = (props: IActionProps) => {
   ));
 
   return (
-    <div className={styles.action}>
+    <div className={styles.wrapper}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <fieldset className={styles.action__fieldset}>
+        <fieldset className={styles.fieldset}>
           <select
             id="from"
             defaultValue={catFrom?.id}
@@ -80,7 +80,7 @@ export const Action = (props: IActionProps) => {
           >
             {toOptions}
           </select>
-          <div className={styles.action__info}>
+          <div className={styles.info}>
             <input
               id="sum"
               defaultValue={sum}

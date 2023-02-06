@@ -112,9 +112,9 @@ export const Donut = (props: ICategory) => {
   return (
     <>
       <Link href={`/category/${id}`}>
-        <div className={`${styles.category} ${border} ${outline} ${opacity}`} ref={ref}>
-          <p className={styles.category__name}>{name}</p>
-          <p className={styles.category__total}>{splitByDigits(total ? total : start)}</p>
+        <div className={`${styles.wrapper} ${border} ${outline} ${opacity}`} ref={ref}>
+          <p className={styles.name}>{name}</p>
+          <p className={styles.total}>{splitByDigits(total ? total : start)}</p>
           <button
             onClick={(e) => {
               e.preventDefault();
